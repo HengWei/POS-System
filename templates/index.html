@@ -29,6 +29,20 @@
         letter-spacing: 3px;
     }
 
+    .btn-key{
+        height: 100px;
+        width: 100px;
+        font-size: 30px;
+        vertical-align: middle;
+        font-family: 標楷體;
+    }
+
+    .keyboard{
+        line-height: 110px;
+        letter-spacing: 3px;
+        display: inline;
+    }
+
 
 </style>
 <script>
@@ -100,7 +114,7 @@
 
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <div class="menu" id="mainMenu">
+        <div class="menu" id="mainMenu" hidden>
             <a class="btn btn-lg btn-primary" href="javascript:ShowMenu('menu-1');" role="button">冰飲類</a>
             <a class="btn btn-lg btn-primary" href="#" role="button">熱飲類</a>
             <a class="btn btn-lg btn-primary" href="#" role="button">單品咖啡</a>
@@ -121,6 +135,27 @@
             <a class="btn btn-lg btn-primary" href="#" role="button">櫻桃紅茶</a>
             <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>
         </div>
+        <div id="number" class="keyboard" >
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">1</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">2</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">3</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">4</a>
+{#            <input type="text" class="form-control" style="display: inline ;width: 60px;" placeholder="數量">#}
+            <br>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">5</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">6</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">7</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">8</a>
+
+            <br>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">9</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">0</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">+</a>
+            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">小計</a>
+
+            <br>
+        </div>
+
     </div>
 
 </div> <!-- /container -->
