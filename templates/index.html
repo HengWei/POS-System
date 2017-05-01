@@ -17,32 +17,40 @@
 </head>
 <style>
     .btn {
-        height: 150px;
-        width: 150px;
-        font-size: 30px;
+        height: 110px;
+        width: 110px;
+        font-size: 20px;
         vertical-align: middle;
         font-family: 標楷體;
     }
 
     .menu {
-        line-height: 160px;
+        line-height: 120px;
         letter-spacing: 3px;
     }
 
-    .btn-key{
-        height: 100px;
-        width: 100px;
+    .btn-key {
+        height: 80px;
+        width: 80px;
         font-size: 30px;
         vertical-align: middle;
         font-family: 標楷體;
     }
 
-    .keyboard{
-        line-height: 110px;
+    .keyboard {
+        line-height: 100px;
         letter-spacing: 3px;
-        display: inline;
+
     }
 
+    .form-control {
+        font-size: 30px;
+    }
+
+    .table {
+        font-size: 20px;
+        font-family: 標楷體;
+    }
 
 </style>
 <script>
@@ -51,10 +59,21 @@
     })
 
 
+    function ShowCount(Target) {
+        var speed = 'fast';
+        $('#menu-1').hide(speed);
+        $('#mainMenu').hide(speed);
+        $('#number').show(speed);
+
+    }
+    ;
+
     function ShowMenu(Target) {
         var speed = 'fast';
         $('#' + Target).show(speed);
         $('#mainMenu').hide(speed);
+        $('#number').hide(speed);
+        $('#txtNumber').val('1');
     }
     ;
 
@@ -62,6 +81,19 @@
         var speed = 'fast';
         $('#' + Target).hide(speed);
         $('#mainMenu').show(speed);
+        $('#number').hide(speed);
+    }
+    ;
+
+
+    function Count(NumberVal) {
+        if (NumberVal == -1) {
+            $('#txtNumber').val('');
+        }
+        else {
+            $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
+
+        }
     }
     ;
 
@@ -89,75 +121,83 @@
                     <li><a href="#">Report</a></li>
                     <li><a href="#">Setting</a></li>
                     <li><a href="#">Logout</a></li>
-                    {#                    <li class="dropdown">#}
-                    {#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-                    {#                           aria-expanded="false">Dropdown <span class="caret"></span></a>#}
-                    {#                        <ul class="dropdown-menu">#}
-                    {#                            <li><a href="#">Action</a></li>#}
-                    {#                            <li><a href="#">Another action</a></li>#}
-                    {#                            <li><a href="#">Something else here</a></li>#}
-                    {#                            <li role="separator" class="divider"></li>#}
-                    {#                            <li class="dropdown-header">Nav header</li>#}
-                    {#                            <li><a href="#">Separated link</a></li>#}
-                    {#                            <li><a href="#">One more separated link</a></li>#}
-                    {#                        </ul>#}
-                    {#                    </li>#}
                 </ul>
-                {#                <ul class="nav navbar-nav navbar-right">#}
-                {#                    <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>#}
-                {#                    <li><a href="../navbar-static-top/">Static top</a></li>#}
-                {#                    <li><a href="../navbar-fixed-top/">Fixed top</a></li>#}
-                {#                </ul>#}
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
 
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="menu" id="mainMenu" hidden>
-            <a class="btn btn-lg btn-primary" href="javascript:ShowMenu('menu-1');" role="button">冰飲類</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">熱飲類</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">單品咖啡</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">義式咖啡</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">花式咖啡</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">手作料理</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">帕里尼</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">貝果堡<br>紳士堡</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">甜點</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">簡單貝果</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">鬆餅類</a>
+            <div class="jumbotron col-lg-6 col-md-6">
+            <div class="menu" id="mainMenu">
+                <a class="btn btn-lg btn-primary" href="javascript:ShowMenu('menu-1');" role="button">冰飲類</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">熱飲類</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">單品咖啡</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">義式咖啡</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">花式咖啡</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">手作料理</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">帕里尼</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">貝果堡<br>紳士堡</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">甜點</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">簡單貝果</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">鬆餅類</a>
+            </div>
+            <div class="menu" id="menu-1" hidden>
+                <h3>冰飲類</h3>
+                <a class="btn btn-lg btn-primary" href="javascript: ShowCount();" role="button">錫蘭紅茶</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">茉莉綠茶</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">柳橙紅茶</a>
+                <a class="btn btn-lg btn-primary" href="#" role="button">櫻桃紅茶</a>
+                <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>
+            </div>
+            <div id="number" class="keyboard" style="display: none">
+                <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(1);" role="button">1</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(2);" role="button">2</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(3);" role="button">3</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(4);" role="button">4</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(5);" role="button">5</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(6);" role="button">6</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(7);" role="button">7</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(8);" role="button">8</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(9);" role="button">9</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(0);" role="button">0</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:Count(-1);" role="button">更正</a>
+                <a class="btn btn-lg btn-primary btn-key" href="javascript:BackMenu('number')" role="button">小計</a>
+                <a class="btn btn-lg btn-warning btn-key" href="javascript: BackMenu('menu-1');" role="button">取消</a>
+                <br>
+            </div>
         </div>
-        <div id="menu-1" hidden>
-            <h3>冰飲類</h3>
-            <a class="btn btn-lg btn-primary" href="#" role="button">錫蘭紅茶</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">茉莉綠茶</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">柳橙紅茶</a>
-            <a class="btn btn-lg btn-primary" href="#" role="button">櫻桃紅茶</a>
-            <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>
+        <div class="col-lg-6 col-md-6">
+            <!-- Table panel panel-default -->
+            <table class="table table-striped">
+                <th>#</th>
+                <th>餐點名稱</th>
+                <th>數量</th>
+                <th>單價</th>
+                <th>小計</th>
+                <tr>
+                    <td>1</td>
+                    <td>錫蘭紅茶</td>
+                    <td>1</td>
+                    <td>50</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>茉莉綠茶</td>
+                    <td>2</td>
+                    <td>55</td>
+                    <td>110</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>總計</td>
+                    <td></td>
+                    <td></td>
+                    <td><p style="color: red; font-size: 30px">160</p></td>
+                </tr>
+            </table>
         </div>
-        <div id="number" class="keyboard" >
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">1</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">2</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">3</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">4</a>
-{#            <input type="text" class="form-control" style="display: inline ;width: 60px;" placeholder="數量">#}
-            <br>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">5</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">6</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">7</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">8</a>
-
-            <br>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">9</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">0</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">+</a>
-            <a class="btn btn-lg btn-primary btn-key" href="#" role="button">小計</a>
-
-            <br>
-        </div>
-
-    </div>
-
 </div> <!-- /container -->
 
 
