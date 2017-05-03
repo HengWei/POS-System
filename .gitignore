@@ -11,4 +11,4 @@ settings.py
 
 ;;directories to ignore
 .idea/
-.idea/workspace.xml
+
