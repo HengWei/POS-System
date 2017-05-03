@@ -11,9 +11,21 @@
     <title>Affogato Café POS System Demo Version</title>
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
+    <link href="{% static "css/jquery.dataTables.min.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
     <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">
+    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
     <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
+
+
 </head>
 <style>
     .btn {
@@ -63,11 +75,29 @@
         padding-bottom: 26px;
     }
 </style>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>
 <script>
     var item = {}, list = [];
-    $(document).load(function () {
 
-    })
+    var dataSet = [
+    [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
+
+    [ "Unity Butler", "Marketing Designer", "San Francisco", "5384", "2009/12/09", "$85,675" ]
+];
+
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        data: dataSet,
+        columns: [
+            { title: "Name" },
+            { title: "Position" },
+            { title: "Office" },
+            { title: "Extn." },
+            { title: "Start date" },
+            { title: "Salary" }
+        ]
+    } );
+} );
 
 
     function ShowCount(Target) {
@@ -191,35 +221,36 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
+        <table id="example" class="display" width="100%"></table>
         <!-- Table panel panel-default -->
-        <table class="table table-striped">
-            <th>#</th>
-            <th>餐點名稱</th>
-            <th>數量</th>
-            <th>單價</th>
-            <th>小計</th>
-            <tr>
-                <td>1</td>
-                <td>錫蘭紅茶</td>
-                <td>1</td>
-                <td>50</td>
-                <td>50</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>茉莉綠茶</td>
-                <td>2</td>
-                <td>55</td>
-                <td>110</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>總計</td>
-                <td></td>
-                <td></td>
-                <td><p style="color: red; font-size: 30px">160</p></td>
-            </tr>
-        </table>
+{#        <table class="table table-striped">#}
+{#            <th>#</th>#}
+{#            <th>餐點名稱</th>#}
+{#            <th>數量</th>#}
+{#            <th>單價</th>#}
+{#            <th>小計</th>#}
+{#            <tr>#}
+{#                <td>1</td>#}
+{#                <td>錫蘭紅茶</td>#}
+{#                <td>1</td>#}
+{#                <td>50</td>#}
+{#                <td>50</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>2</td>#}
+{#                <td>茉莉綠茶</td>#}
+{#                <td>2</td>#}
+{#                <td>55</td>#}
+{#                <td>110</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td>總計</td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td><p style="color: red; font-size: 30px">160</p></td>#}
+{#            </tr>#}
+{#        </table>#}
     </div>
 </div> <!-- /container -->
 
