@@ -52,8 +52,19 @@
         font-family: 標楷體;
     }
 
+    .container .jumbotron,
+    .container-fluid .jumbotron {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    .jumbotron {
+        padding-top: 26px;
+        padding-bottom: 26px;
+    }
 </style>
 <script>
+    var item = {}, list = [];
     $(document).load(function () {
 
     })
@@ -64,7 +75,7 @@
         $('#menu-1').hide(speed);
         $('#mainMenu').hide(speed);
         $('#number').show(speed);
-
+        item.item = Target;
     }
     ;
 
@@ -94,6 +105,14 @@
             $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
 
         }
+    }
+    ;
+
+    function PsuhToList() {
+        item.num = $('#txtNumber').val();
+        list.push(item);
+        item = {};
+        BackMenu('number');
     }
     ;
 
@@ -127,80 +146,81 @@
     </nav>
 
     <!-- Main component for a primary marketing message or call to action -->
-            <div class="jumbotron col-lg-6 col-md-6">
-            <div class="menu" id="mainMenu">
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">冰飲類</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">熱飲類</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">單品咖啡</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">義式咖啡</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">花式咖啡</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">手作料理</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">貝果堡<br>紳士堡</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">甜點</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">簡單貝果</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">鬆餅類</button>
+    <div class="jumbotron col-lg-6 col-md-6">
+        <div class="menu" id="mainMenu">
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">冰飲類</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">熱飲類</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">單品咖啡</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">義式咖啡</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">花式咖啡</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">手作料理</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">貝果堡<br>紳士堡</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">甜點</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">簡單貝果</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">鬆餅類</button>
 
-            </div>
-            <div class="menu" id="menu-1" hidden>
-                <h3>冰飲類</h3>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount();">錫蘭紅茶</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount();">茉莉綠茶</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount();">柳橙紅茶</button>
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount();">櫻桃紅茶</button>
-                <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu-1');">回上一頁</button>
-
-{#                <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>#}
-            </div>
-            <div id="number" class="keyboard" style="display: none">
-                <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4);">4</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5);">5</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6);">6</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7);">7</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8);">8</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9);">9</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0);">0</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(-1);">更正</button>
-                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:BackMenu('menu-1');">取消</button>
-
-
-                <br>
-            </div>
         </div>
-        <div class="col-lg-6 col-md-6">
-            <!-- Table panel panel-default -->
-            <table class="table table-striped">
-                <th>#</th>
-                <th>餐點名稱</th>
-                <th>數量</th>
-                <th>單價</th>
-                <th>小計</th>
-                <tr>
-                    <td>1</td>
-                    <td>錫蘭紅茶</td>
-                    <td>1</td>
-                    <td>50</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>茉莉綠茶</td>
-                    <td>2</td>
-                    <td>55</td>
-                    <td>110</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>總計</td>
-                    <td></td>
-                    <td></td>
-                    <td><p style="color: red; font-size: 30px">160</p></td>
-                </tr>
-            </table>
+        <div class="menu" id="menu-1" hidden>
+            <h3>冰飲類</h3>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('錫蘭紅茶');">錫蘭紅茶</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('茉莉綠茶');">茉莉綠茶</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('柳橙紅茶');">柳橙紅茶</button>
+            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('櫻桃紅茶');">櫻桃紅茶</button>
+            <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu-1');">回上一頁</button>
+
+            {#                <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>#}
         </div>
+        <div id="number" class="keyboard" style="display: none">
+            <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4);">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5);">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6);">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7);">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8);">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9);">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0);">0</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:PsuhToList();">小計</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(-1);">更正</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:BackMenu('menu-1');">取消</button>
+
+
+            <br>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <!-- Table panel panel-default -->
+        <table class="table table-striped">
+            <th>#</th>
+            <th>餐點名稱</th>
+            <th>數量</th>
+            <th>單價</th>
+            <th>小計</th>
+            <tr>
+                <td>1</td>
+                <td>錫蘭紅茶</td>
+                <td>1</td>
+                <td>50</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>茉莉綠茶</td>
+                <td>2</td>
+                <td>55</td>
+                <td>110</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>總計</td>
+                <td></td>
+                <td></td>
+                <td><p style="color: red; font-size: 30px">160</p></td>
+            </tr>
+        </table>
+    </div>
 </div> <!-- /container -->
 
 
