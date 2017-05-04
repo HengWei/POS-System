@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
@@ -14,17 +16,142 @@
     <link href="{% static "css/jquery.dataTables.min.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
     <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
-    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">
-    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.1/js/jquery.dataTables.min.js"></script>
 
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css"
+          href="http://cdn.datatables.net/responsive/1.0.0/css/dataTables.responsive.css">
+    <script type="text/javascript"
+            src="http://cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.js"></script>
+    {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
+    {#    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">#}
+
+    {#    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">#}
+
+    {#    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>#}
 
 
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
     <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
 
+
+    <script>
+        var dataset = [];
+
+
+        function TableLoad() {
+            var columnDefs = [
+                {
+                    title: "品項"
+                }, {
+                    title: "單價"
+                }, {
+                    title: "數量"
+                }, {
+                    title: "小計"
+                }];
+
+            var myTable;
+
+            myTable = $('#example').DataTable({
+                "sPaginationType": "full_numbers",
+                data: dataSet,
+                columns: columnDefs,
+                {#                dom: 'Bfrtip',        // Needs button container#}
+                {#                select: 'single',#}
+                {#                responsive: true,#}
+                {#                altEditor: true,     // Enable altEditor#}
+                {#                buttons: [{#}
+                {#                    text: 'Add',#}
+                {#                    name: 'add'        // do not change name#}
+                {#                },#}
+                {#                    {#}
+                {#                        extend: 'selected', // Bind to Selected row#}
+                {#                        text: 'Edit',#}
+                {#                        name: 'edit'        // do not change name#}
+                {#                    },#}
+                {#                    {#}
+                {#                        extend: 'selected', // Bind to Selected row#}
+                {#                        text: 'Delete',#}
+                {#                        name: 'delete'      // do not change name#}
+                {#                    }]#}
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            dataSet = [
+                ["錫蘭紅茶", "50", "1", "50"],
+
+            ];
+        TableLoad();
+
+        });
+    </script>
+
+    <script>
+        var item = [], list = [];
+
+
+        function ShowCount(Target) {
+            var speed = 'fast';
+            $('#menu-1').hide(speed);
+            $('#mainMenu').hide(speed);
+            $('#number').show(speed);
+            item.push(Target);
+            item.push('50');
+
+            {#            item.item = Target;#}
+        }
+        ;
+
+        function ShowMenu(Target) {
+            var speed = 'fast';
+            $('#' + Target).show(speed);
+            $('#mainMenu').hide(speed);
+            $('#number').hide(speed);
+            $('#txtNumber').val('1');
+        }
+        ;
+
+        function BackMenu(Target) {
+            var speed = 'fast';
+            $('#' + Target).hide(speed);
+            $('#mainMenu').show(speed);
+            $('#number').hide(speed);
+        }
+        ;
+
+
+        function Count(NumberVal) {
+            if (NumberVal == -1) {
+                $('#txtNumber').val('');
+            }
+            else {
+                $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
+
+            }
+        }
+        ;
+
+        function PsuhToList() {
+            {#            item.num = $('#txtNumber').val();#}
+            item.push($('#txtNumber').val());
+            item.push('50');
+
+            dataSet.push(item);
+            item = [];
+{#            $('#example').DataTable().ajax.reload();#}
+            $('#example').DataTable().clear().rows.add(dataSet).draw();
+{#            $('#example').DataTable().row.add().draw()#}
+            BackMenu('number');
+        }
+        ;
+
+    </script>
 
 </head>
 <style>
@@ -60,7 +187,7 @@
     }
 
     .table {
-        font-size: 20px;
+        font-size: 15px;
         font-family: 標楷體;
     }
 
@@ -75,78 +202,9 @@
         padding-bottom: 26px;
     }
 </style>
-<script type="text/javascript" language="javascript" src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>
-<script>
-    var item = {}, list = [];
+{#<script type="text/javascript" language="javascript"#}
+{#        src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>#}
 
-    var dataSet = [
-    [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
-
-    [ "Unity Butler", "Marketing Designer", "San Francisco", "5384", "2009/12/09", "$85,675" ]
-];
-
-    $(document).ready(function() {
-    $('#example').DataTable( {
-        data: dataSet,
-        columns: [
-            { title: "Name" },
-            { title: "Position" },
-            { title: "Office" },
-            { title: "Extn." },
-            { title: "Start date" },
-            { title: "Salary" }
-        ]
-    } );
-} );
-
-
-    function ShowCount(Target) {
-        var speed = 'fast';
-        $('#menu-1').hide(speed);
-        $('#mainMenu').hide(speed);
-        $('#number').show(speed);
-        item.item = Target;
-    }
-    ;
-
-    function ShowMenu(Target) {
-        var speed = 'fast';
-        $('#' + Target).show(speed);
-        $('#mainMenu').hide(speed);
-        $('#number').hide(speed);
-        $('#txtNumber').val('1');
-    }
-    ;
-
-    function BackMenu(Target) {
-        var speed = 'fast';
-        $('#' + Target).hide(speed);
-        $('#mainMenu').show(speed);
-        $('#number').hide(speed);
-    }
-    ;
-
-
-    function Count(NumberVal) {
-        if (NumberVal == -1) {
-            $('#txtNumber').val('');
-        }
-        else {
-            $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
-
-        }
-    }
-    ;
-
-    function PsuhToList() {
-        item.num = $('#txtNumber').val();
-        list.push(item);
-        item = {};
-        BackMenu('number');
-    }
-    ;
-
-</script>
 <body>
 <div class="container">
 
@@ -221,36 +279,37 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        <table id="example" class="display" width="100%"></table>
-        <!-- Table panel panel-default -->
-{#        <table class="table table-striped">#}
-{#            <th>#</th>#}
-{#            <th>餐點名稱</th>#}
-{#            <th>數量</th>#}
-{#            <th>單價</th>#}
-{#            <th>小計</th>#}
-{#            <tr>#}
-{#                <td>1</td>#}
-{#                <td>錫蘭紅茶</td>#}
-{#                <td>1</td>#}
-{#                <td>50</td>#}
-{#                <td>50</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>2</td>#}
-{#                <td>茉莉綠茶</td>#}
-{#                <td>2</td>#}
-{#                <td>55</td>#}
-{#                <td>110</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td>總計</td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td><p style="color: red; font-size: 30px">160</p></td>#}
-{#            </tr>#}
-{#        </table>#}
+        {#        <table id="example" class="display" width="100%"></table>#}
+        <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example">
+            <!-- Table panel panel-default -->
+            {#        <table class="table table-striped">#}
+            {#            <th>#</th>#}
+            {#            <th>餐點名稱</th>#}
+            {#            <th>數量</th>#}
+            {#            <th>單價</th>#}
+            {#            <th>小計</th>#}
+            {#            <tr>#}
+            {#                <td>1</td>#}
+            {#                <td>錫蘭紅茶</td>#}
+            {#                <td>1</td>#}
+            {#                <td>50</td>#}
+            {#                <td>50</td>#}
+            {#            </tr>#}
+            {#            <tr>#}
+            {#                <td>2</td>#}
+            {#                <td>茉莉綠茶</td>#}
+            {#                <td>2</td>#}
+            {#                <td>55</td>#}
+            {#                <td>110</td>#}
+            {#            </tr>#}
+            {#            <tr>#}
+            {#                <td></td>#}
+            {#                <td>總計</td>#}
+            {#                <td></td>#}
+            {#                <td></td>#}
+            {#                <td><p style="color: red; font-size: 30px">160</p></td>#}
+            {#            </tr>#}
+            {#        </table>#}
     </div>
 </div> <!-- /container -->
 
@@ -258,8 +317,8 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>
+{#<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+{#<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>#}
 <script src={% static "js/bootstrap.min.js" %}></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
