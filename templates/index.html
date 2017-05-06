@@ -44,6 +44,9 @@
         function TableLoad() {
             var columnDefs = [
                 {
+                    title: "#"
+                },
+                {
                     title: "品項"
                 }, {
                     title: "單價"
@@ -84,16 +87,15 @@
         $(document).ready(function () {
 
             dataSet = [
-                ["錫蘭紅茶", "50", "1", "50"],
-
+                ['999', "總計", "", "", 0],
             ];
-        TableLoad();
+            TableLoad();
 
         });
     </script>
 
     <script>
-        var item = [], list = [];
+        var item = {};
 
 
         function ShowCount(Target) {
@@ -101,10 +103,9 @@
             $('#menu-1').hide(speed);
             $('#mainMenu').hide(speed);
             $('#number').show(speed);
-            item.push(Target);
-            item.push('50');
-
-            {#            item.item = Target;#}
+            item.sn = dataSet.length;
+            item.name = Target;
+            item.single = '50';
         }
         ;
 
@@ -139,14 +140,20 @@
 
         function PsuhToList() {
             {#            item.num = $('#txtNumber').val();#}
-            item.push($('#txtNumber').val());
-            item.push('50');
-
-            dataSet.push(item);
-            item = [];
-{#            $('#example').DataTable().ajax.reload();#}
+            item.num = $('#txtNumber').val();
+            item.price = parseInt(item.num) * parseInt(item.single);
+            dataSet[0][4] = dataSet[0][4] + item.price;
+            var array = $.map(item, function (value, index) {
+                return [value];
+            });
+            dataSet.push(array);
+            item = {};
+            dataSet[0][4]=0;
+            for (i = 1; i < dataSet.length; i++) {
+                dataSet[0][4] += dataSet[i][4];
+            }
             $('#example').DataTable().clear().rows.add(dataSet).draw();
-{#            $('#example').DataTable().row.add().draw()#}
+            {#            $('#example').DataTable().row.add().draw()#}
             BackMenu('number');
         }
         ;
@@ -273,43 +280,12 @@
             <button class="btn btn-lg btn-primary btn-key" onclick="javascript:PsuhToList();">小計</button>
             <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(-1);">更正</button>
             <button class="btn btn-lg btn-primary btn-key" onclick="javascript:BackMenu('menu-1');">取消</button>
-
-
             <br>
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        {#        <table id="example" class="display" width="100%"></table>#}
         <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example">
-            <!-- Table panel panel-default -->
-            {#        <table class="table table-striped">#}
-            {#            <th>#</th>#}
-            {#            <th>餐點名稱</th>#}
-            {#            <th>數量</th>#}
-            {#            <th>單價</th>#}
-            {#            <th>小計</th>#}
-            {#            <tr>#}
-            {#                <td>1</td>#}
-            {#                <td>錫蘭紅茶</td>#}
-            {#                <td>1</td>#}
-            {#                <td>50</td>#}
-            {#                <td>50</td>#}
-            {#            </tr>#}
-            {#            <tr>#}
-            {#                <td>2</td>#}
-            {#                <td>茉莉綠茶</td>#}
-            {#                <td>2</td>#}
-            {#                <td>55</td>#}
-            {#                <td>110</td>#}
-            {#            </tr>#}
-            {#            <tr>#}
-            {#                <td></td>#}
-            {#                <td>總計</td>#}
-            {#                <td></td>#}
-            {#                <td></td>#}
-            {#                <td><p style="color: red; font-size: 30px">160</p></td>#}
-            {#            </tr>#}
-            {#        </table>#}
+            {#        <p>總金額：</p>#}
     </div>
 </div> <!-- /container -->
 
