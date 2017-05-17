@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Affogato Café POS System Demo Version</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
+    <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar.css" %}" rel="stylesheet">
+    <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    {#<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>#}
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    {##}
+    {##}
+    {#    <script type="text/javascript" src="{% static "js/highcharts.js" %}"></script>#}
+
+    {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
+    {#    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">#}
+
+    {#    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">#}
+
+    {#    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>#}
+
+
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
+    <script>
+        $(document).ready(function () {
+
+            // Build the chart
+            Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '各類銷售狀況'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: '冰飲類',
+                        y: 56.33
+                    }, {
+                        name: '單品咖啡',
+                        y: 24.03,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: '甜點',
+                        y: 10.38
+                    }, {
+                        name: '鬆餅類',
+                        y: 4.77
+                    }, {
+                        name: '手做料理',
+                        y: 0.91
+                    }, {
+                        name: '義式咖啡',
+                        y: 0.2
+                    }]
+                }]
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            Highcharts.chart('container2', {
+
+                title: {
+                    text: '收入與支出圖表'
+                },
+                yAxis: {
+                    title: {
+                        text: '新台幣'
+                    }
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        pointStart: Date.UTC(2017, 0, 1),
+                        pointInterval: 24 * 3600 * 1000 // one day
+                    }
+                },
+
+                series: [{
+                    name: '營業額',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                }, {
+                    name: '支出',
+                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                },]
+
+            });
+        })
+    </script>
+
+</head>
+
+
+{#<script type="text/javascript" language="javascript"#}
+{#        src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>#}
+
+<body>
+<div class="container">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Affogato Café POS</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="../sell/">Sell</a></li>
+                    <li><a href="#">Buy</a></li>
+                    <li class="active"><a href="../report/">Report</a></li>
+                    <li><a href="#">Setting</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="">
+        <div id="container" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
+    </div>
+    <div class="">
+        <div id="container2" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
+    </div>
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>
+<script src={% static "js/bootstrap.min.js" %}></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
+</body>
+</html>
