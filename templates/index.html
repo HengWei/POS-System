@@ -98,13 +98,13 @@
 
     <script>
         var item = {};
-        function ShowCount(Target) {
+        function ShowCount(Target, price) {
             var speed = 'fast';
-            $('#menu-1').hide(speed);
+            HidenAllDiv();
             $('#mainMenu').hide(speed);
             $('#number').show(speed);
             item.name = Target;
-            item.single = '50';
+            item.single = price;
         }
         ;
 
@@ -119,11 +119,19 @@
 
         function BackMenu(Target) {
             var speed = 'fast';
-            $('#' + Target).hide(speed);
+            HidenAllDiv();
             $('#mainMenu').show(speed);
             $('#number').hide(speed);
         }
         ;
+
+        function HidenAllDiv() {
+            var speed = 'fast';
+            {% for foo in menuList %}
+                $('#menu{{ foo.menuid }}').hide(speed);
+            {% endfor %}
+            $('#number').hide(speed);
+        }
 
 
         function Count(NumberVal) {
@@ -241,36 +249,25 @@
     <!-- Main component for a primary marketing message or call to action -->
     {#    <p>{{ r1.parentName }}</p>#}
     <div class="jumbotron col-lg-6 col-md-6">
-
         <div class="menu" id="mainMenu">
-
-            {% for item in r1 %}
-                <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">item.parentName</button>
-
-
+            {% for r1 in menuList %}
+                <button class="btn btn-lg btn-primary"
+                        onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">{{ r1.menuname }}</button>
             {% endfor %}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">冰飲類</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">熱飲類</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">單品咖啡</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">義式咖啡</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">花式咖啡</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">手作料理</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">貝果堡<br>紳士堡</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">甜點</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">簡單貝果</button>#}
-            {#            <button class="btn btn-lg btn-primary" onclick="javascript:ShowMenu('menu-1');">鬆餅類</button>#}
-
         </div>
-        <div class="menu" id="menu-1" hidden>
-            <h3>冰飲類</h3>
-            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('錫蘭紅茶');">錫蘭紅茶</button>
-            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('茉莉綠茶');">茉莉綠茶</button>
-            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('柳橙紅茶');">柳橙紅茶</button>
-            <button class="btn btn-lg btn-primary" onclick="javascript:ShowCount('櫻桃紅茶');">櫻桃紅茶</button>
-            <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu-1');">回上一頁</button>
+        {% for t1 in menuList %}
+            <div class="menu" id="menu{{ t1.menuid }}" hidden>
+                {% for m2 in menu1 %}
+                    {% if t1.menuid == m2.menuparentid %}
+                        <button class="btn btn-lg btn-primary"
+                                onclick="javascript:ShowCount('{{ m2.menuname }}',{{ m2.menuprice }});">{{ m2.menuname }}</button>
+                    {% endif %}
+                {% endfor %}
+                <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
+                </button>
+            </div>
+        {% endfor %}
 
-            {#                <a class="btn btn-lg btn-warning" href="javascript: BackMenu('menu-1');" role="button">回上一頁</a>#}
-        </div>
         <div id="number" class="keyboard" style="display: none">
             <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
             <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
@@ -291,7 +288,8 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example">
-            {#        <p>總金額：</p>#}
+        </table>
+
     </div>
 </div> <!-- /container -->
 
