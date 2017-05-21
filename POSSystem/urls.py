@@ -17,9 +17,11 @@ from django.conf.urls import url
 # from django.contrib import admin
 from POSSys.views import index
 from report.views import report
+from POSSys.views import Check
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^sell/', index),
     url(r'^report/', report),
+    url(r'^check/', Check),
 ]

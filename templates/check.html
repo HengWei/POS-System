@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>Check Page</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar.css" %}" rel="stylesheet">
+    <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+<table class="table table-striped">
+    <tr>
+        <td>應付金額</td>
+        <td>$600</td>
+    </tr>
+    <tr>
+        <td>實付金額</td>
+        <td><input type="text" class="form-control" placeholder="實付金額"></td>
+    </tr>
+    <tr>
+        <td>找零</td>
+        <td>$400</td>
+    </tr>
+    <tr>
+        <td>
+            <button class="btn btn-danger btn-lg">更正</button>
+            <button class="btn btn-primary btn-lg">結帳</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
