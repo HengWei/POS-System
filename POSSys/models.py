@@ -18,6 +18,7 @@ class Menu(models.Model):
 
 class Sell(models.Model):
     sellid = models.BigIntegerField(db_column='sellId', primary_key=True)  # Field name made lowercase.
+    sellbasicid=models.BigIntegerField(db_column='sellBasicId')
     sellitem = models.IntegerField(db_column='sellItem')  # Field name made lowercase.
     sellquantity = models.IntegerField(db_column='sellQuantity')  # Field name made lowercase.
     selldatetime = models.DateTimeField(db_column='sellDatetime', blank=True, null=True)  # Field name made lowercase.
