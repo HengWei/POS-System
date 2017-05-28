@@ -366,7 +366,6 @@
                     <tr>
                         <td colspan="2" class="keyboard">
                             <div class="keyboard">
-                                <input type="text" id="sellList" name="sellList" hidden>
                                 <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
                                 <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
                                 <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
@@ -383,6 +382,7 @@
                                 <button class="btn btn-success btn-key" onclick="Recive()">結帳</button>
                                 <form action="/sell/" method="post">
                                     {% csrf_token %}
+                                    <input type="text" id="sellList" name="sellList" hidden>
                                     <button class="btn btn-primary btn-key">完成</button>
                                 </form>
                             </div>
