@@ -49,24 +49,24 @@
 
             dataSet = [];
             var columnDefs = [
-                        {
-                            title: "品項ID",
-                            visible: false,
+                    {
+                        title: "品項ID",
+                        visible: false,
 
-                        },
-                        {
-                            title: "品項"
-                        }, {
-                            title: "單價"
-                        }, {
-                            title: "數量"
-                        }, {
-                            title: "小計"
-                        }, {
-                            "defaultContent": '<button type="button" class="btn-tra glyphicon glyphicon-trash"></button >'
-                        },
-                    ]
-                    ;
+                    },
+                    {
+                        title: "品項"
+                    }, {
+                        title: "單價"
+                    }, {
+                        title: "數量"
+                    }, {
+                        title: "小計"
+                    }, {
+                        "defaultContent": '<button type="button" class="btn-tra glyphicon glyphicon-trash"></button >'
+                    },
+                ]
+                ;
 
             var myTable;
 
@@ -108,6 +108,7 @@
 
     <script>
         var item = {};
+        var firstFlag = 0;
         function ShowCount(id, Target, price) {
             var speed = 'fast';
             HidenAllDiv();
@@ -125,6 +126,7 @@
             $('#mainMenu').hide(speed);
             $('#number').hide(speed);
             $('#txtNumber').val('1');
+            firstFlag = 1;
         }
         ;
 
@@ -151,7 +153,14 @@
                     $('#txtNumber').val('');
                 }
                 else {
-                    $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
+                    if (firstFlag) {
+                        $('#txtNumber').val(NumberVal.toString());
+                        firstFlag=0;
+                    }
+                    else {
+                        $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
+
+                    }
                 }
             }
             else {
@@ -189,11 +198,10 @@
 
 
         function Recive() {
-            $('#change').val($('#money').val() - $('#totalCount').val()) ;
+            $('#change').val($('#money').val() - $('#totalCount').val());
         }
 
         ;
-
 
 
     </script>
@@ -358,25 +366,26 @@
                     <tr>
                         <td colspan="2" class="keyboard">
                             <div class="keyboard">
-                            <input type="text" id="sellList" name="sellList" hidden>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4);">4</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5);">5</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6);">6</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7);">7</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8);">8</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9);">9</button>
-                            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0);">0</button>
-                            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1);">清除</button>
-                            <button class="btn btn-danger btn-key" class="close" data-dismiss="modal">更正</button>
-                            <button class="btn btn-success btn-key" onclick="Recive()">結帳</button>
-                            <form action="/sell/" method="post">
-                                {% csrf_token %}
-                                <button class="btn btn-primary btn-key">完成</button>
-                            </form>
-                                </div>
+                                <input type="text" id="sellList" name="sellList" hidden>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4);">4</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5);">5</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6);">6</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7);">7</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8);">8</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9);">9</button>
+                                <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0);">0</button>
+                                <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1);">清除
+                                </button>
+                                <button class="btn btn-danger btn-key" class="close" data-dismiss="modal">更正</button>
+                                <button class="btn btn-success btn-key" onclick="Recive()">結帳</button>
+                                <form action="/sell/" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary btn-key">完成</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 </table>
