@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib import admin
 from POSSys.views import index
-from report.views import report
-from POSSys.views import Check
+from report.views import report, reportSum
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^sell/', index),
-    url(r'^report/', report),
-    url(r'^check/', Check),
+    url(r'^reportSum/$', reportSum),
+    url(r'^report/$', report),
+
+
 ]

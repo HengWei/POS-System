@@ -49,24 +49,24 @@
 
             dataSet = [];
             var columnDefs = [
-                    {
-                        title: "品項ID",
-                        visible: false,
+                        {
+                            title: "品項ID",
+                            visible: false,
 
-                    },
-                    {
-                        title: "品項"
-                    }, {
-                        title: "單價"
-                    }, {
-                        title: "數量"
-                    }, {
-                        title: "小計"
-                    }, {
-                        "defaultContent": '<button type="button" class="btn-tra glyphicon glyphicon-trash"></button >'
-                    },
-                ]
-                ;
+                        },
+                        {
+                            title: "品項"
+                        }, {
+                            title: "單價"
+                        }, {
+                            title: "數量"
+                        }, {
+                            title: "小計"
+                        }, {
+                            "defaultContent": '<button type="button" class="btn-tra glyphicon glyphicon-trash"></button >'
+                        },
+                    ]
+                    ;
 
             var myTable;
 
@@ -155,7 +155,7 @@
                 else {
                     if (firstFlag) {
                         $('#txtNumber').val(NumberVal.toString());
-                        firstFlag=0;
+                        firstFlag = 0;
                     }
                     else {
                         $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
@@ -282,7 +282,15 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Sell</a></li>
                     <li><a href="#">Buy</a></li>
-                    <li><a href="../report/">Report</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Report <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../report/">銷售項目分析</a></li>
+                            <li><a href="../reportSum/">營業額</a></li>
+                            <li><a href="#">銷售時間分析</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#">Setting</a></li>
                     <li><a href="#">Logout</a></li>
                 </ul>
