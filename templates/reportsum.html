@@ -83,38 +83,8 @@
 
 <body>
 <div class="container">
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Affogato Café POS</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li><a href="../sell/">Sell</a></li>
-                    <li><a href="#">Buy</a></li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Report <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">銷售項目分析</a></li>
-                            <li><a href="#">營業額</a></li>
-                            <li><a href="#">銷售時間分析</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Setting</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-    </nav>
+      {% include 'navbar.html' %}
+
 
     <!-- Main component for a primary marketing message or call to action -->
 

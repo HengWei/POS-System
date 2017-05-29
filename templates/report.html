@@ -148,85 +148,14 @@
 
 <body>
 <div class="container">
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Affogato Café POS</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li><a href="../sell/">Sell</a></li>
-                    <li><a href="#">Buy</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Report <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">銷售項目分析</a></li>
-                            <li><a href="#">營業額</a></li>
-                            <li><a href="#">銷售時間分析</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Setting</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-    </nav>
+    {% include 'navbar.html' %}
 
     <!-- Main component for a primary marketing message or call to action -->
     <div class="">
         {#        <div id="container" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>#}
         <div id="container" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>
     </div>
-    {#    <pre id="tsv" style="display:none">Browser Version    Total Market Share#}
-    {#Microsoft Internet Explorer 8.0    26.61%#}
-    {#Microsoft Internet Explorer 9.0    16.96%#}
-    {#Chrome 18.0    8.01%#}
-    {#Chrome 19.0    7.73%#}
-    {#Firefox 12    6.72%#}
-    {#Microsoft Internet Explorer 6.0    6.40%#}
-    {#Firefox 11    4.72%#}
-    {#Microsoft Internet Explorer 7.0    3.55%#}
-    {#Safari 5.1    3.53%#}
-    {#Firefox 13    2.16%#}
-    {#Firefox 3.6    1.87%#}
-    {#Opera 11.x    1.30%#}
-    {#Chrome 17.0    1.13%#}
-    {#Firefox 10    0.90%#}
-    {#Safari 5.0    0.85%#}
-    {#Firefox 9.0    0.65%#}
-    {#Firefox 8.0    0.55%#}
-    {#Firefox 4.0    0.50%#}
-    {#Chrome 16.0    0.45%#}
-    {#Firefox 3.0    0.36%#}
-    {#Firefox 3.5    0.36%#}
-    {#Firefox 6.0    0.32%#}
-    {#Firefox 5.0    0.31%#}
-    {#Firefox 7.0    0.29%#}
-    {#Proprietary or Undetectable    0.29%#}
-    {#Chrome 18.0 - Maxthon Edition    0.26%#}
-    {#Chrome 14.0    0.25%#}
-    {#Chrome 20.0    0.24%#}
-    {#Chrome 15.0    0.18%#}
-    {#Chrome 12.0    0.16%#}
-    {#Opera 12.x    0.15%#}
-    {#Safari 4.0    0.14%#}
-    {#Chrome 13.0    0.13%#}
-    {#Safari 4.1    0.12%#}
-    {#Chrome 11.0    0.10%#}
-    {#Firefox 14    0.10%#}
-    {#Firefox 2.0    0.09%#}
-    {#Chrome 10.0    0.09%#}
-    {#Opera 10.x    0.09%#}
-    {#Microsoft Internet Explorer 8.0 - Tencent Traveler Edition    0.09%</pre>#}
+
 </div> <!-- /container -->
 
 
