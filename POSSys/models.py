@@ -22,28 +22,12 @@ class Sell(models.Model):
     sellitem = models.IntegerField(db_column='sellItem')  # Field name made lowercase.
     sellquantity = models.IntegerField(db_column='sellQuantity')  # Field name made lowercase.
     selldatetime = models.DateTimeField(db_column='sellDatetime', blank=True, null=True)  # Field name made lowercase.
+    sellprice=models.IntegerField(db_column='sellPrice')
+    sellhot=models.IntegerField(db_column='sellHot')
 
     class Meta:
         managed = False
         db_table = 'Sell'
         app_label = 'POSSys'
 
-# Create your models here.
-# class view_menu(models.Manager):
-#     parentId = models.CharField(max_length=11)
-#     parentName = models.CharField(max_length=50)
-#     detailId = models.CharField(max_length=11)
-#     detailName = models.CharField(max_length=50)
-#     price = models.DecimalField(max_digits=11, decimal_places=0)
-#     class Meta:
-#         managed = False
-#         db_table = 'view_menu'
-#
-#
-#     def GetList(self):
-#         cursor = connection.cursor()
-#         cursor.execute("""
-#             SELECT *
-#             FROM view_menu;
-#         """)
-#         return [result[0] for result in cursor.fetchall()]
+

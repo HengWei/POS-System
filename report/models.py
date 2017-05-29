@@ -45,6 +45,26 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
+    def GetSellTotal(self):
+        curosr = connection.cursor()
+        sqlStr = '''
+                  SELECT date_format(DATE_ADD(sellDatetime,INTERVAL 8 HOUR),'%b-%d') as sellDate
+                  , SUM(sellPrice) FROM Sell
+                  WHERE sellDatetime IS NOT NULL
+                  GROUP BY date_format(DATE_ADD(sellDatetime,INTERVAL 8 HOUR),'%b-%d')
+                '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['date'] = obj[0]
+            dic['total'] = obj[1]
+            result.append(dic)
+        return result
+
+
+
 
 class SellSum(models.Model):
     object = SellSumManager()

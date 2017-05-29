@@ -12,14 +12,17 @@ def index(request):
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')
         dataSell = Sell()
+        # 0:id 1:name 2:single price 3:amount 4:total price
         for idx, val in enumerate(data):
             if (idx) % 5 == 0:
                 dataSell.sellitem = val
             if (idx) % 5 == 3:
                 dataSell.sellquantity = val
             if (idx) % 5 == 4:
+                dataSell.sellprice=val
                 dataSell.sellbasicid = 0
-                dataSell.selldatetime = datetime.now(timezone.utc).astimezone()
+                dataSell.sellhot=0
+                dataSell.selldatetime = datetime.now()
                 dataSell.save()
                 dataSell.clean()
     return render(request, 'index.html', locals())

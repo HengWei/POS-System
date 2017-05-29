@@ -97,7 +97,7 @@
             $('#example tbody').on('click', '.btn-tra', function (e) {
                 getData = myTable.row($(this).parents('tr')).data();
                 for (i = 0; i < dataSet.length; i++) {
-                    if ((dataSet[i][0] == getData[0]) && (dataSet[i][2] == getData[2])) {
+                    if ((dataSet[i][0] == getData[0]) && (dataSet[i][3] == getData[3])) {
                         dataSet.splice(i, 1);
                         myTable.clear().rows.add(dataSet).draw();
                     }
@@ -304,7 +304,7 @@
         <div class="menu" id="mainMenu">
             {% for r1 in menuList %}
                 <button class="btn btn-lg btn-primary"
-                        onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">{{ r1.menuname }}</button>
+                        onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">{% autoescape off %}{{ r1.menuname }}{% endautoescape %}</button>
             {% endfor %}
 
             <a href="#myModal" data-toggle="modal">
@@ -315,8 +315,8 @@
             <div class="menu" id="menu{{ t1.menuid }}" hidden>
                 {% for m2 in menu1 %}
                     {% if t1.menuid == m2.menuparentid %}
-                        <button class="btn btn-lg btn-primary"
-                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }});">{{ m2.menuname }}</button>
+                        <button class="btn btn-lg btn-primary "
+                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }});">{% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
                     {% endif %}
                 {% endfor %}
                 <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
@@ -354,7 +354,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                {#                         <h3>TITLE</h3>#}
 
             </div>
             <div class="modal-body">
