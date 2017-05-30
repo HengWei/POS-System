@@ -2,8 +2,6 @@ from django.shortcuts import render
 from POSSys.models import Menu, Sell
 from datetime import datetime
 from django.utils import timezone
-
-
 # Create your views here.
 
 def index(request):
@@ -19,12 +17,13 @@ def index(request):
             if (idx) % 5 == 3:
                 dataSell.sellquantity = val
             if (idx) % 5 == 4:
-                dataSell.sellprice=val
                 dataSell.sellbasicid = 0
+                dataSell.selldatetime= datetime.now()
+                dataSell.sellprice=val
                 dataSell.sellhot=0
-                dataSell.selldatetime = datetime.now()
                 dataSell.save()
                 dataSell.clean()
+
     return render(request, 'index.html', locals())
 
 
