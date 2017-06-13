@@ -122,9 +122,9 @@
 
         function ShowMenu(Target) {
             var speed = 'fast';
+            HidenAllDiv();
             $('#' + Target).show(speed);
-            $('#mainMenu').hide(speed);
-            $('#number').hide(speed);
+
             $('#txtNumber').val('1');
             firstFlag = 1;
         }
@@ -133,6 +133,7 @@
         function BackMenu(Target) {
             var speed = 'fast';
             HidenAllDiv();
+
             $('#mainMenu').show(speed);
             $('#number').hide(speed);
         }
@@ -144,25 +145,30 @@
                 $('#menu{{ foo.menuid }}').hide(speed);
             {% endfor %}
             $('#number').hide(speed);
+            $('#mainMenu').hide(speed);
+            $('#basicId').hide(speed);
+            $('#basicNumber').hide(speed);
+            $('#basicTime').hide(speed);
+
         }
 
 
-        function Count(NumberVal) {
-            if ($('#number').is(':visible')) {
+        function Count(NumberVal, tagerDiv) {
+            if ($('#number').is(':visible') || $('#basicId').is(':visible') || $('#basicTime').is(':visible') || $('#basicNumber').is(':visible')) {
                 if (NumberVal == -1) {
-                    $('#txtNumber').val('');
+                    $('#' + tagerDiv).val('');
                 }
                 else {
                     if (firstFlag) {
-                        $('#txtNumber').val(NumberVal.toString());
+                        $('#' + tagerDiv).val(NumberVal.toString());
                         firstFlag = 0;
                     }
                     else {
-                        $('#txtNumber').val($('#txtNumber').val() + NumberVal.toString());
-
+                        $('#' + tagerDiv).val($('#' + tagerDiv).val() + NumberVal.toString());
                     }
                 }
             }
+
             else {
                 if (NumberVal == -1) {
                     $('#money').val('');
@@ -201,6 +207,21 @@
             $('#change').val($('#money').val() - $('#totalCount').val());
         }
 
+        function SetBasicInfo() {
+            var speed = 'fast';
+            HidenAllDiv();
+            $('#mainMenu').show(speed);
+            $('#labBasicId').text($('#txtBaiscId').val());
+            $('#txtBasicInfoID').val($('#txtBaiscId').val());
+
+            $('#labBasicNumber').text($('#txtNumber').val());
+            $('#txtBasicInfoNumber').val($('#txtNumber').val());
+
+            $('#labBasicTime').text($('#txtBaiscTime').val());
+            $('#txtBasicInfoTime').val($('#txtBaiscTime').val());
+        }
+
+
         ;
 
 
@@ -211,7 +232,7 @@
     .btn {
         height: 110px;
         width: 23%;
-        font-size: 20px;
+        font-size: 16px;
         vertical-align: middle;
         font-family: 標楷體;
     }
@@ -264,48 +285,25 @@
 
 <body>
 <div class="container">
-
-    <!-- Static navbar -->
-{#    <nav class="navbar navbar-default">#}
-{#        <div class="container-fluid">#}
-{#            <div class="navbar-header">#}
-{#                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"#}
-{#                        aria-expanded="false" aria-controls="navbar">#}
-{#                    <span class="sr-only">Toggle navigation</span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                </button>#}
-{#                <a class="navbar-brand" href="#">Affogato Café POS</a>#}
-{#            </div>#}
-{#            <div id="navbar" class="navbar-collapse collapse navbar-right">#}
-{#                <ul class="nav navbar-nav">#}
-{#                    <li class="active"><a href="#">Sell</a></li>#}
-{#                    <li><a href="#">Buy</a></li>#}
-{#                    <li class="dropdown">#}
-{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-{#                           aria-expanded="false">Report <span class="caret"></span></a>#}
-{#                        <ul class="dropdown-menu">#}
-{#                            <li><a href="../report/">銷售項目分析</a></li>#}
-{#                            <li><a href="../reportSum/">營業額</a></li>#}
-{#                            <li><a href="#">銷售時間分析</a></li>#}
-{#                        </ul>#}
-{#                    </li>#}
-{#                    <li><a href="#">Setting</a></li>#}
-{#                    <li><a href="#">Logout</a></li>#}
-{#                </ul>#}
-{#            </div><!--/.nav-collapse -->#}
-{#        </div><!--/.container-fluid -->#}
-{#    </nav>#}
     {% include 'navbar.html' %}
     <!-- Main component for a primary marketing message or call to action -->
     {#    <p>{{ r1.parentName }}</p>#}
+    <div class="jumbotron col-lg-12 col-md-12" id="basicInfo">
+        <p style="font-size: 16px">
+            點單編號： <span id="labBasicId"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;進入時間：<span id="labBasicTime"></span>&nbsp;&nbsp;&nbsp;&nbsp;人數：<span
+                id="labBasicNumber"></span>
+        </p>
+    </div>
     <div class="jumbotron col-lg-6 col-md-6">
         <div class="menu" id="mainMenu">
             {% for r1 in menuList %}
                 <button class="btn btn-lg btn-primary"
-                        onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">{% autoescape off %}{{ r1.menuname }}{% endautoescape %}</button>
+                        onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">
+                    {% autoescape off %}{{ r1.menuname }}{% endautoescape %}</button>
             {% endfor %}
+
+            <button class="btn btn-success" onclick="jvascript:ShowMenu('basicId')">顧客資訊</button>
+
 
             <a href="#myModal" data-toggle="modal">
                 <button class="btn btn-warning" onclick="jvascript:CountTotal()">結帳</button>
@@ -316,7 +314,8 @@
                 {% for m2 in menu1 %}
                     {% if t1.menuid == m2.menuparentid %}
                         <button class="btn btn-lg btn-primary "
-                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }});">{% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
+                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }});">
+                            {% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
                     {% endif %}
                 {% endfor %}
                 <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
@@ -324,35 +323,109 @@
             </div>
         {% endfor %}
 
+        <div id="basicId" class="keyboard" style="display: none">
+            <input type="text" class="form-control" id="txtBaiscId" style="height: 60px" placeholder="單號">
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscId');">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscId');">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscId');">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscId');">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscId');">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscId');">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscId');">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscId');">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscId');">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscId');">0</button>
+            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscId');">更正</button>
+            <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','txtBaiscId');">取消
+            </button>
+            <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicTime');">時間</button>
+            <br>
+        </div>
+
+        <div id="basicNumber" class="keyboard" style="display: none">
+            <input type="text" class="form-control" id="txtBaiscNumber" style="height: 60px" placeholder="人數">
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscNumber');">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscNumber');">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscNumber');">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscNumber');">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscNumber');">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscNumber');">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscNumber');">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscNumber');">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscNumber');">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscNumber');">0</button>
+            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscNumber');">更正</button>
+            <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','basicNumber');">取消
+            </button>
+            <button class="btn btn-lg btn-success btn-key" onclick="javascript: SetBasicInfo();">完成</button>
+            <br>
+        </div>
+
+
+        <div id="basicTime" class="keyboard" style="display: none">
+            <input type="text" class="form-control" id="txtBaiscTime" style="height: 60px" placeholder="時間：HHMM">
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscTime');">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscTime');">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscTime');">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscTime');">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscTime');">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscTime');">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscTime');">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscTime');">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscTime');">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscTime');">0</button>
+            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscTime');">更正</button>
+            <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','basicTime');">取消
+            </button>
+            <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicNumber');">人數</button>
+            <br>
+        </div>
+
         <div id="number" class="keyboard" style="display: none">
             <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1);">1</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2);">2</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3);">3</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4);">4</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5);">5</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6);">6</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7);">7</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8);">8</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9);">9</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0);">0</button>
-            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1);">更正</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtNumber');">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtNumber');">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtNumber');">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtNumber');">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtNumber');">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtNumber');">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtNumber');">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtNumber');">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtNumber');">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtNumber');">0</button>
+            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtNumber');">更正</button>
             <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1');">取消</button>
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:PsuhToList();">小計</button>
             <br>
         </div>
+
+        <div id="number" class="keyboard" style="display: none">
+            <input type="text" class="form-control" id="txtNumber" style="height: 60px" placeholder="數量">
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtNumber');">1</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtNumber');">2</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtNumber');">3</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtNumber');">4</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtNumber');">5</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtNumber');">6</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtNumber');">7</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtNumber');">8</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtNumber');">9</button>
+            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtNumber');">0</button>
+            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtNumber');">更正</button>
+            <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1');">取消</button>
+            <button class="btn btn-lg btn-success btn-key" onclick="javascript:PsuhToList();">小計</button>
+            <br>
+        </div>
+
     </div>
     <div class="col-lg-6 col-md-6">
-        <div class="jumbotron ">
-            <p>點單編號：</p>
-            <p>進入時間：</p>
-            <p>人數：</p>
 
-        </div>
-        <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example" width="100%">
+        <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example"
+               width="100%">
         </table>
     </div>
 </div> <!-- /container -->
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -395,6 +468,10 @@
                                 <form action="/sell/" method="post">
                                     {% csrf_token %}
                                     <input type="text" id="sellList" name="sellList" hidden>
+                                    <input type="text" id="txtBasicInfoID" name="txtBasicInfoID" hidden>
+                                    <input type="text" id="txtBasicInfoTime" name="txtBasicInfoTime" hidden>
+                                    <input type="text" id="txtBasicInfoNumber" name="txtBasicInfoNumber" hidden>
+                                    <input type="text" id="txtBasicInfo" name="txtBasicInfo" hidden>
                                     <button class="btn btn-primary btn-key">完成</button>
                                 </form>
                             </div>

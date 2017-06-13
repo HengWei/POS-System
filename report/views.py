@@ -14,3 +14,6 @@ def reportSum(request):
     data = SellSum.object.GetSellTotal()
     return render(request, 'reportsum.html',locals())
 
+def reportCustomer(request):
+    # data = SellSum.object.GetSellTotal()
+    return render(request, 'reportCustomer.html',locals())

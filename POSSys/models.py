@@ -31,3 +31,15 @@ class Sell(models.Model):
         app_label = 'POSSys'
 
 
+class SellBasic(models.Model):
+    sellbasicid = models.BigIntegerField(db_column='sellBasicId', primary_key=True)  # Field name made lowercase.
+    sellno = models.CharField(db_column='sellNo', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    sellbasickeyindate = models.DateTimeField(db_column='sellBasicKeyinDate')  # Field name made lowercase.
+    customernumber = models.IntegerField(db_column='customerNumber')  # Field name made lowercase.
+    isdelete = models.IntegerField(db_column='isDelete')  # Field name made lowercase.
+    entrytime = models.DateTimeField(db_column='entryTime')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Sell_Basic'
+        app_label = 'POSSys'

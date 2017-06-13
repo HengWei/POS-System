@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Affogato Café POS System Demo Version</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
+    <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar.css" %}" rel="stylesheet">
+    <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    {#<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>#}
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    {##}
+    {##}
+    {#    <script type="text/javascript" src="{% static "js/highcharts.js" %}"></script>#}
+
+    {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
+    {#    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">#}
+
+    {#    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">#}
+
+    {#    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>#}
+
+
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
+    <script>
+        $(document).ready(function () {
+Highcharts.chart('container', {
+
+    title: {
+        text: '銷售時間分析表'
+    },
+
+{#    subtitle: {#}
+{#        text: 'Source: thesolarfoundation.com'#}
+{#    },#}
+
+    yAxis: {
+        title: {
+            text: '顧客人數'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            pointStart: 0
+        }
+    },
+
+    series: [{
+        name: '顧客人數',
+        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,7,8,3,10,0,0,0,0]
+    }
+{#        , {#}
+{#        name: 'Manufacturing',#}
+{#        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]#}
+{#    }, {#}
+{#        name: 'Sales & Distribution',#}
+{#        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]#}
+{#    }, {#}
+{#        name: 'Project Development',#}
+{#        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]#}
+{#    }, {#}
+{#        name: 'Other',#}
+{#        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]#}
+{#    }#}
+    ]
+
+});
+        })
+    </script>
+
+</head>
+
+
+{#<script type="text/javascript" language="javascript"#}
+{#        src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>#}
+
+<body>
+<div class="container">
+      {% include 'navbar.html' %}
+
+
+    <!-- Main component for a primary marketing message or call to action -->
+
+    <div class="">
+        <div id="container" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
+    </div>
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>
+<script src={% static "js/bootstrap.min.js" %}></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
+</body>
+</html>
