@@ -37,53 +37,60 @@
     <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
     <script>
         $(document).ready(function () {
-Highcharts.chart('container', {
-
-    title: {
-        text: '銷售時間分析表'
-    },
-
-{#    subtitle: {#}
-{#        text: 'Source: thesolarfoundation.com'#}
-{#    },#}
-
-    yAxis: {
-        title: {
-            text: '顧客人數'
-        }
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-    },
-
-    plotOptions: {
-        series: {
-            pointStart: 0
-        }
-    },
-
-    series: [{
-        name: '顧客人數',
-        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,7,8,3,10,0,0,0,0]
-    }
-{#        , {#}
-{#        name: 'Manufacturing',#}
-{#        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]#}
-{#    }, {#}
-{#        name: 'Sales & Distribution',#}
-{#        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]#}
-{#    }, {#}
-{#        name: 'Project Development',#}
-{#        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]#}
-{#    }, {#}
-{#        name: 'Other',#}
-{#        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]#}
-{#    }#}
-    ]
-
-});
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '來客數與時間分析表'
+                },
+                subtitle: {
+                    text: '時間： 2017/6/17 - 2017/6/17'
+                },
+                xAxis: {
+                    type: 'category',
+                    labels: {
+                        rotation: 0,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '顧客人數'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '顧客數: <b>{point.y:f} 人</b>'
+                },
+                series: [{
+                    name: '顧客人數',
+                    data: [
+                            
+                        {% for foo in data %}
+                            ['{{ foo.hour }}', {{ foo.num }}],
+                        {% endfor %}
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        rotation: 0,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        format: '{point.y:f}', // one decimal
+                        y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
         })
     </script>
 
@@ -95,7 +102,7 @@ Highcharts.chart('container', {
 
 <body>
 <div class="container">
-      {% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 
 
     <!-- Main component for a primary marketing message or call to action -->

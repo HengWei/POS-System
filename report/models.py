@@ -64,7 +64,26 @@ class SellSumManager(models.Manager):
         return result
 
 
-
+    def GetSellTime(self):
+        curosr = connection.cursor()
+        sqlStr = '''
+                    SELECT c.Hour, ifnull(b.num, 0) as num
+                    FROM Code_Hour c
+                    LEFT JOIN (
+                    SELECT date_format(DATE_ADD(entryTime, INTERVAL 8 HOUR), '%k') as times, SUM(customerNumber) as num
+                    FROM Sell_Basic
+                    GROUP BY date_format(DATE_ADD(entryTime, INTERVAL 8 HOUR), '%k')) b ON c.Hour=b.times
+                    ORDER BY c.Hour
+                  '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['hour'] = obj[0]
+            dic['num'] = obj[1]
+            result.append(dic)
+        return result
 
 class SellSum(models.Model):
     object = SellSumManager()
