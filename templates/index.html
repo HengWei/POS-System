@@ -290,8 +290,9 @@
     {#    <p>{{ r1.parentName }}</p>#}
     <div class="jumbotron col-lg-12 col-md-12" id="basicInfo">
         <p style="font-size: 16px">
-            點單編號： <span id="labBasicId"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;進入時間：<span id="labBasicTime"></span>&nbsp;&nbsp;&nbsp;&nbsp;人數：<span
-                id="labBasicNumber"></span>
+            點單編號： <span id="labBasicId">{{ basicInfo.sellno }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;進入時間：<span
+                id="labBasicTime">{{ basicInfo.entrytime|date:'H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;人數：<span
+                id="labBasicNumber">{{ basicInfo.customernumber }}</span>
         </p>
     </div>
     <div class="jumbotron col-lg-6 col-md-6">
@@ -472,6 +473,7 @@
                                     <input type="text" id="txtBasicInfoTime" name="txtBasicInfoTime" hidden>
                                     <input type="text" id="txtBasicInfoNumber" name="txtBasicInfoNumber" hidden>
                                     <input type="text" id="txtBasicInfo" name="txtBasicInfo" hidden>
+                                    <input type="text" id="txtSellBasicID" name="txtSellBasicID" hidden>
                                     <button class="btn btn-primary btn-key">完成</button>
                                 </form>
                             </div>

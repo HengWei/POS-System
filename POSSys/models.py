@@ -32,7 +32,7 @@ class Sell(models.Model):
 
 
 class SellBasic(models.Model):
-    sellbasicid = models.BigIntegerField(db_column='sellBasicId', primary_key=True)  # Field name made lowercase.
+    sellbasicid = models.AutoField(db_column='sellBasicId', primary_key=True)  # Field name made lowercase.
     sellno = models.CharField(db_column='sellNo', max_length=45, blank=True, null=True)  # Field name made lowercase.
     sellbasickeyindate = models.DateTimeField(db_column='sellBasicKeyinDate')  # Field name made lowercase.
     customernumber = models.IntegerField(db_column='customerNumber')  # Field name made lowercase.
