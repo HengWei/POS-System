@@ -52,7 +52,6 @@
                         {
                             title: "品項ID",
                             visible: false,
-
                         },
                         {
                             title: "品項"
@@ -112,6 +111,9 @@
         function ShowCount(id, Target, price, addition) {
             var speed = 'fast';
             HidenAllDiv();
+            item.id = id;
+            item.name = Target;
+            item.single = price;
             $('#mainMenu').hide(speed);
             if(addition==='')
             {
@@ -121,14 +123,40 @@
             {
                 var additionItem=addition.split(',');
                 $('#addition').show(speed);
-
-
             }
-            item.id = id;
-            item.name = Target;
-            item.single = price;
+
         }
         ;
+
+
+        function PushToListForAddition(addPrice, addId, addName)
+        {
+            item.num = $('#txtNumber').val();
+            item.price = parseInt(item.num) * parseInt(item.single);
+            var array = $.map(item, function (value, index) {
+                return [value];
+            });
+            dataSet.push(array);
+            item = {};
+
+            item.id = addId;
+            item.name = addName;
+            item.single = addPrice;
+            item.num=1;
+            item.price=addPrice;
+
+            var array1 = $.map(item, function (value, index) {
+                return [value];
+            });
+            dataSet.push(array1);
+             item = {};
+
+            $('#example').DataTable().clear().rows.add(dataSet).draw();
+            $('#sellList').val(dataSet);
+
+            BackMenu('addition');
+
+        };
 
         function ShowMenu(Target) {
             var speed = 'fast';
@@ -159,6 +187,7 @@
             $('#basicId').hide(speed);
             $('#basicNumber').hide(speed);
             $('#basicTime').hide(speed);
+            $('#addition').hide(speed);
 
         }
 
@@ -429,7 +458,7 @@
         </div>
         <div id="addition" class="menu" style="display: none">
             {% for addItem in menuAddition %}
-                <button class="btn btn-lg btn-primary" onclick="javascript:Count(1,'txtNumber');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
+                <button class="btn btn-lg btn-primary" onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
 
