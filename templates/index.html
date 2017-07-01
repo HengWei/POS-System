@@ -115,13 +115,11 @@
             item.name = Target;
             item.single = price;
             $('#mainMenu').hide(speed);
-            if(addition==='')
-            {
+            if (addition === '') {
                 $('#number').show(speed);
             }
-            else
-            {
-                var additionItem=addition.split(',');
+            else {
+                var additionItem = addition.split(',');
                 $('#addition').show(speed);
             }
 
@@ -129,8 +127,7 @@
         ;
 
 
-        function PushToListForAddition(addPrice, addId, addName)
-        {
+        function PushToListForAddition(addPrice, addId, addName) {
             item.num = $('#txtNumber').val();
             item.price = parseInt(item.num) * parseInt(item.single);
             var array = $.map(item, function (value, index) {
@@ -139,24 +136,27 @@
             dataSet.push(array);
             item = {};
 
-            item.id = addId;
-            item.name = addName;
-            item.single = addPrice;
-            item.num=1;
-            item.price=addPrice;
+            if (addId !== 0) {
+                item.id = addId;
+                item.name = addName;
+                item.single = addPrice;
+                item.num = 1;
+                item.price = addPrice;
 
-            var array1 = $.map(item, function (value, index) {
-                return [value];
-            });
-            dataSet.push(array1);
-             item = {};
+                var array1 = $.map(item, function (value, index) {
+                    return [value];
+                });
+                dataSet.push(array1);
+                item = {};
+            }
 
             $('#example').DataTable().clear().rows.add(dataSet).draw();
             $('#sellList').val(dataSet);
 
             BackMenu('addition');
 
-        };
+        }
+        ;
 
         function ShowMenu(Target) {
             var speed = 'fast';
@@ -458,11 +458,13 @@
         </div>
         <div id="addition" class="menu" style="display: none">
             {% for addItem in menuAddition %}
-                <button class="btn btn-lg btn-primary" onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
+                <button class="btn btn-lg btn-primary"
+                        onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '
+                                {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">
+                    {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
-
-
+            <button class="btn btn-lg btn-primary" onclick="javascript:PushToListForAddition(0,0, '');">無加購</button>
 
 
         </div>
