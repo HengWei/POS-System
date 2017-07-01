@@ -136,7 +136,7 @@
             dataSet.push(array);
             item = {};
 
-            if (addId !== 0) {
+            if (addName !== '') {
                 item.id = addId;
                 item.name = addName;
                 item.single = addPrice;
@@ -459,9 +459,7 @@
         <div id="addition" class="menu" style="display: none">
             {% for addItem in menuAddition %}
                 <button class="btn btn-lg btn-primary"
-                        onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '
-                                {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">
-                    {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
+                        onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
             <button class="btn btn-lg btn-primary" onclick="javascript:PushToListForAddition(0,0, '');">無加購</button>
