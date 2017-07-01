@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from POSSys.models import Menu, Sell, SellBasic
+from POSSys.models import Menu, Sell, SellBasic, MenuAddition
 from datetime import datetime
 from django.utils import timezone
 # Create your views here.
@@ -13,6 +13,7 @@ def index(request):
     sellbasicid=''
     menuList = Menu.objects.filter(menuparentid=0)
     menu1 = Menu.objects.all().exclude(menuparentid=0)
+    menuAddition= MenuAddition.objects.filter(menuadditionisdeletet=0)
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')
         dataSell = Sell()
@@ -28,6 +29,7 @@ def index(request):
             basicInfo=SellBasic.objects.get(sellbasicid=request.POST['txtSellBasicID'])
             # basicInfo.sellbasicid=request.POST['txtSellBasicID']
             sellbasicid=request.POST['txtSellBasicID']
+
         # 0:id 1:name 2:single price 3:amount 4:total price
         for idx, val in enumerate(data):
             if (idx) % 5 == 0:
@@ -37,6 +39,7 @@ def index(request):
             if (idx) % 5 == 4:
                 dataSell.sellbasicid=basicInfo.sellbasicid
                 dataSell.selldatetime= datetime.now()
+
                 dataSell.sellprice=val
                 dataSell.sellhot=0
                 dataSell.save()

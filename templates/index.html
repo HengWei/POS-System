@@ -109,11 +109,21 @@
     <script>
         var item = {};
         var firstFlag = 0;
-        function ShowCount(id, Target, price) {
+        function ShowCount(id, Target, price, addition) {
             var speed = 'fast';
             HidenAllDiv();
             $('#mainMenu').hide(speed);
-            $('#number').show(speed);
+            if(addition==='')
+            {
+                $('#number').show(speed);
+            }
+            else
+            {
+                var additionItem=addition.split(',');
+                $('#addition').show(speed);
+
+
+            }
             item.id = id;
             item.name = Target;
             item.single = price;
@@ -214,8 +224,8 @@
             $('#labBasicId').text($('#txtBaiscId').val());
             $('#txtBasicInfoID').val($('#txtBaiscId').val());
 
-            $('#labBasicNumber').text($('#txtNumber').val());
-            $('#txtBasicInfoNumber').val($('#txtNumber').val());
+            $('#labBasicNumber').text($('#txtBaiscNumber').val());
+            $('#txtBasicInfoNumber').val($('#txtBaiscNumber').val());
 
             $('#labBasicTime').text($('#txtBaiscTime').val());
             $('#txtBasicInfoTime').val($('#txtBaiscTime').val());
@@ -315,7 +325,7 @@
                 {% for m2 in menu1 %}
                     {% if t1.menuid == m2.menuparentid %}
                         <button class="btn btn-lg btn-primary "
-                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }});">
+                                onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }},'{{ m2.menuaddition }}');">
                             {% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
                     {% endif %}
                 {% endfor %}
@@ -417,7 +427,16 @@
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:PsuhToList();">小計</button>
             <br>
         </div>
+        <div id="addition" class="menu" style="display: none">
+            {% for addItem in menuAddition %}
+                <button class="btn btn-lg btn-primary" onclick="javascript:Count(1,'txtNumber');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
+            {% endfor %}
+
+
+
+
+        </div>
     </div>
     <div class="col-lg-6 col-md-6">
 
