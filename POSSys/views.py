@@ -13,12 +13,15 @@ def index(request):
     sellbasicid=''
     menuList = Menu.objects.filter(menuparentid=0)
     menu1 = Menu.objects.all().exclude(menuparentid=0)
-    menuAddition= MenuAddition.objects.filter(menuadditionisdeletet=0)
+    menuAddition= MenuAddition.objects.filter(menuadditionisdeletet=0).filter(menuadditionparentid=0)
+    menuAdditionList=Menu.objects.filter(menuparentid__range=(1,5))
+
+
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')
         dataSell = Sell()
         if request.POST['txtSellBasicID'] == '':
-            basicInfo.entrytime = '2017-06-13 10:31:00'
+            basicInfo.entrytime = request.POST['txtBasicInfoTime']
             basicInfo.sellno = request.POST['txtBasicInfoID']
             basicInfo.customernumber = request.POST['txtBasicInfoNumber']
             basicInfo.sellbasickeyindate = datetime.now()

@@ -51,7 +51,7 @@ class MenuAddition(models.Model):
     menuadditionname = models.CharField(db_column='menuAdditionName', max_length=50)  # Field name made lowercase.
     menuadditionprice = models.IntegerField(db_column='menuAdditionPrice')  # Field name made lowercase.
     menuadditionisdeletet = models.IntegerField(db_column='menuAdditionIsDeletet')  # Field name made lowercase.
-
+    menuadditionparentid = models.IntegerField(db_column='menuAdditionParentId')
     class Meta:
         managed = False
         db_table = 'Menu_Addition'

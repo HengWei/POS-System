@@ -16,11 +16,17 @@
     <link href="{% static "css/jquery.dataTables.min.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
     <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-datetimepicker.css" %}" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.css" rel="stylesheet">
 
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src={% static "js/bootstrap.min.js" %}></script>
+    <script src={% static "js/jquery-2.1.1.min.js" %}></script>
     <script type="text/javascript" src="http://cdn.datatables.net/1.10.1/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.1.1/ekko-lightbox.js"></script>
 
@@ -40,6 +46,7 @@
 
     {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
     <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
+    <link href="{% static "js/bootstrap-datetimepicker.js" %}" rel="stylesheet">
 
 
     <script>
@@ -49,23 +56,23 @@
 
             dataSet = [];
             var columnDefs = [
-                        {
-                            title: "品項ID",
-                            visible: false,
-                        },
-                        {
-                            title: "品項"
-                        }, {
-                            title: "單價"
-                        }, {
-                            title: "數量"
-                        }, {
-                            title: "小計"
-                        }, {
-                            "defaultContent": '<button type="button" class="btn-tra glyphicon glyphicon-trash"></button >'
-                        },
-                    ]
-                    ;
+                    {
+                        title: "品項ID",
+                        visible: false,
+                    },
+                    {
+                        title: "品項"
+                    }, {
+                        title: "單價"
+                    }, {
+                        title: "數量"
+                    }, {
+                        title: "小計"
+                    }, {
+                        "defaultContent": '<nobr> <button type="button" class="btn-tra glyphicon glyphicon-trash"></button> </nobr>'
+                    },
+                ]
+            ;
 
             var myTable;
 
@@ -188,9 +195,10 @@
             $('#basicNumber').hide(speed);
             $('#basicTime').hide(speed);
             $('#addition').hide(speed);
+            $('#menuAddList2').hide(speed);
+            $('#menuAddList1').hide(speed);
 
         }
-
 
         function Count(NumberVal, tagerDiv) {
             if ($('#number').is(':visible') || $('#basicId').is(':visible') || $('#basicTime').is(':visible') || $('#basicNumber').is(':visible')) {
@@ -258,17 +266,19 @@
 
             $('#labBasicTime').text($('#txtBaiscTime').val());
             $('#txtBasicInfoTime').val($('#txtBaiscTime').val());
-        }
+        };
 
-
-        ;
-
-
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'YYYY-DD-MM HH:mm'
+            });
+        });
     </script>
+
 
 </head>
 <style>
-    .btn {
+    .btn-menu {
         height: 110px;
         width: 23%;
         font-size: 16px;
@@ -330,35 +340,35 @@
     <div class="jumbotron col-lg-12 col-md-12" id="basicInfo">
         <p style="font-size: 16px">
             點單編號： <span id="labBasicId">{{ basicInfo.sellno }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;進入時間：<span
-                id="labBasicTime">{{ basicInfo.entrytime|date:'H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;人數：<span
+                id="labBasicTime">{{ basicInfo.entrytime }}</span>&nbsp;&nbsp;&nbsp;&nbsp;人數：<span
                 id="labBasicNumber">{{ basicInfo.customernumber }}</span>
         </p>
     </div>
-    <div class="jumbotron col-lg-6 col-md-6">
+    <div class="jumbotron col-lg-6 col-md-5">
         <div class="menu" id="mainMenu">
             {% for r1 in menuList %}
-                <button class="btn btn-lg btn-primary"
+                <button class="btn btn-lg btn-primary btn-menu"
                         onclick="javascript:ShowMenu('menu{{ r1.menuid }}');">
                     {% autoescape off %}{{ r1.menuname }}{% endautoescape %}</button>
             {% endfor %}
 
-            <button class="btn btn-success" onclick="jvascript:ShowMenu('basicId')">顧客資訊</button>
+            <button class="btn btn-success btn-menu" onclick="jvascript:ShowMenu('basicId')">顧客資訊</button>
 
 
             <a href="#myModal" data-toggle="modal">
-                <button class="btn btn-warning" onclick="jvascript:CountTotal()">結帳</button>
+                <button class="btn btn-warning btn-menu" onclick="jvascript:CountTotal()">結帳</button>
             </a>
         </div>
         {% for t1 in menuList %}
             <div class="menu" id="menu{{ t1.menuid }}" hidden>
                 {% for m2 in menu1 %}
                     {% if t1.menuid == m2.menuparentid %}
-                        <button class="btn btn-lg btn-primary "
+                        <button class="btn btn-lg btn-primary btn-menu"
                                 onclick="javascript:ShowCount({{ m2.menuid }},'{{ m2.menuname }}',{{ m2.menuprice }},'{{ m2.menuaddition }}');">
                             {% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
                     {% endif %}
                 {% endfor %}
-                <button class="btn btn-lg btn-warning" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
+                <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
                 </button>
             </div>
         {% endfor %}
@@ -403,18 +413,26 @@
 
 
         <div id="basicTime" class="keyboard" style="display: none">
-            <input type="text" class="form-control" id="txtBaiscTime" style="height: 60px" placeholder="時間：HHMM">
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscTime');">1</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscTime');">2</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscTime');">3</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscTime');">4</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscTime');">5</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscTime');">6</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscTime');">7</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscTime');">8</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscTime');">9</button>
-            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscTime');">0</button>
-            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscTime');">更正</button>
+            <div class='input-group date' id='datetimepicker3'>
+                <input type='text' id='txtBaiscTime' class="form-control"/>
+                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+            </div>
+
+            {#            <input type="text" class="form-control" id="txtBaiscTime" style="height: 60px" placeholder="時間：HHMM">#}
+
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscTime');">1</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscTime');">2</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscTime');">3</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscTime');">4</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscTime');">5</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscTime');">6</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscTime');">7</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscTime');">8</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscTime');">9</button>#}
+            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscTime');">0</button>#}
+            {#            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscTime');">更正</button>#}
             <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','basicTime');">取消
             </button>
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicNumber');">人數</button>
@@ -458,16 +476,37 @@
         </div>
         <div id="addition" class="menu" style="display: none">
             {% for addItem in menuAddition %}
-                <button class="btn btn-lg btn-primary"
-                        onclick="javascript:PushToListForAddition({{ addItem.menuadditionprice }},{{ addItem.menuadditionid }}, '{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}');">{% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
+                <button class="btn btn-lg btn-primary btn-menu"
+                        onclick="javascript:ShowMenu('menuAddList{{ addItem.menuadditionid }}');">
+                    {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
-            <button class="btn btn-lg btn-primary" onclick="javascript:PushToListForAddition(0,0, '');">無加購</button>
-
-
+            <button class="btn btn-lg btn-primary btn-menu" onclick="javascript:PushToListForAddition(0,0, '');">無加購</button>
         </div>
+
+
+      <div class="menu" id="menuAddList1" hidden >
+         <button class="btn btn-lg btn-primary btn-menu"
+                                onclick="javascript:PushToListForAddition(15,'101', '加購-錫蘭紅茶');">
+                            錫蘭紅茶</button>
+          <button class="btn btn-lg btn-primary btn-menu"
+                                onclick="javascript:PushToListForAddition(15,'113', '加購-美式咖啡');">
+                            美式咖啡</button>
+        <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁  </button>
+         </div>
+
+
+    <div class="menu" id="menuAddList2" hidden>
+     {% for item in menuAdditionList %}
+         <button class="btn btn-lg btn-primary btn-menu"
+                                onclick="javascript:PushToListForAddition(90,{{ item.menuid }}, '{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
+                            {% autoescape off %}{{ item.menuname }}{% endautoescape %}</button>
+          {% endfor %}
+        <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁  </button>
+         </div>
+
     </div>
-    <div class="col-lg-6 col-md-6">
+    <div class="col-lg-6 col-md-7">
 
         <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example"
                width="100%">
@@ -537,7 +576,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
 {#<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>#}
-<script src={% static "js/bootstrap.min.js" %}></script>
+
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
 </body>
