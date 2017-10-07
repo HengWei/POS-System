@@ -2,25 +2,26 @@ from django.shortcuts import render
 from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp
 from datetime import datetime
 from django.utils import timezone
+
+
 # Create your views here.
 
 def index(request):
-    #Set Basic Info
+    # Set Basic Info
     basicInfo = SellBasic()
     basicInfo.entrytime = ''
     basicInfo.sellno = ''
     basicInfo.customernumber = ''
-    sellbasicid=''
+    sellbasicid = ''
     menuList = Menu.objects.filter(menuparentid=0)
     menu1 = Menu.objects.all().exclude(menuparentid=0)
-    menuAddition= MenuAddition.objects.filter(menuadditionisdeletet=0).filter(menuadditionparentid=0)
-    menuAdditionList=Menu.objects.filter(menuparentid__range=(1,5))
-
+    menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).filter(menuadditionparentid=0)
+    menuAdditionList = Menu.objects.filter(menuparentid__range=(1, 5))
 
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')
         dataSell = Sell()
-        dataSellTemp= SellTemp()
+        dataSellTemp = SellTemp()
         if request.POST['txtSellBasicID'] == '':
             basicInfo.entrytime = request.POST['txtBasicInfoTime']
             basicInfo.sellno = request.POST['txtBasicInfoID']
@@ -30,12 +31,12 @@ def index(request):
             basicInfo.save()
             sellbasicid = basicInfo.sellbasicid
         else:
-            basicInfo=SellBasic.objects.get(sellbasicid=request.POST['txtSellBasicID'])
+            basicInfo = SellBasic.objects.get(sellbasicid=request.POST['txtSellBasicID'])
             # basicInfo.sellbasicid=request.POST['txtSellBasicID']
-            sellbasicid=request.POST['txtSellBasicID']
+            sellbasicid = request.POST['txtSellBasicID']
 
         # 0:id 1:name 2:single price 3:amount 4:total price
-        if request.POST['txtIsTemp']=='':
+        if request.POST['txtIsTemp'] == '0':
             for idx, val in enumerate(data):
                 if (idx) % 5 == 0:
                     dataSell.sellitem = val
@@ -60,9 +61,9 @@ def index(request):
                     dataSellTemp.sellprice = val
                     dataSellTemp.save()
                     dataSellTemp.clean()
-                    basicInfo.sellno=''
-                    basicInfo.entrytime=''
-                    basicInfo.customernumber=''
+                    basicInfo.sellno = ''
+                    basicInfo.entrytime = ''
+                    basicInfo.customernumber = ''
     return render(request, 'index.html', locals())
 
 
