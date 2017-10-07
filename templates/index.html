@@ -278,12 +278,11 @@
                     SellServiceData = JSON.parse(result);
                     dataSet=SellServiceData['list'];
                     $('#example').DataTable().clear().rows.add(dataSet).draw();
+                    $('#sellList').val(dataSet);
                     $('#labBasicId').text(SellServiceData['info'][0][1]);
                     $('#labBasicTime').text(SellServiceData['info'][0][3]);
                     $('#labBasicNumber').text(SellServiceData['info'][0][2]);
                     $('#txtSellBasicID').val(SellServiceData['info'][0][0]);
-
-
                     BackMenu();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -297,6 +296,10 @@
             $('#postInfo').submit();
         }
 
+         function SendSell() {
+            $('#txtIsTemp').val('0');
+            $('#postInfo').submit();
+        }
 
         $(function () {
             $('#datetimepicker3').datetimepicker({
@@ -306,8 +309,6 @@
 
         });
     </script>
-
-
 </head>
 <style>
     .btn-menu {
@@ -585,8 +586,8 @@
                                     <input type="text" id="txtBasicInfoNumber" name="txtBasicInfoNumber" hidden>
                                     <input type="text" id="txtBasicInfo" name="txtBasicInfo" hidden>
                                     <input type="text" id="txtSellBasicID" name="txtSellBasicID" hidden>
-                                    <input type="text" id="txtIsTemp" name="txtIsTemp" value="" hidden>
-                                    <button class="btn btn-primary btn-key">完成</button>
+                                    <input type="text" id="txtIsTemp" name="txtIsTemp" value="0" hidden>
+                                    <button class="btn btn-primary btn-key" onclick="SendSell();">完成</button>
                                 </form>
                             </div>
                         </td>
