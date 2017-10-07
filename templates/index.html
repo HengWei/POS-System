@@ -52,6 +52,7 @@
     <script>
         {#        var dataSet = {};#}
         var getData = [];
+        var DataTemp = [];
         $(document).ready(function () {
 
             dataSet = [];
@@ -115,6 +116,7 @@
     <script>
         var item = {};
         var firstFlag = 0;
+        var DataTemp = [];
         function ShowCount(id, Target, price, addition) {
             var speed = 'fast';
             HidenAllDiv();
@@ -175,7 +177,7 @@
         }
         ;
 
-        function BackMenu(Target) {
+        function BackMenu() {
             var speed = 'fast';
             HidenAllDiv();
 
@@ -268,10 +270,40 @@
             $('#txtBasicInfoTime').val($('#txtBaiscTime').val());
         };
 
+        function GetTempSell() {
+            $.ajax({
+                type: "GET",
+                url: "/getRecord/?id=" + $('#txtBaiscId').val(),
+                success: function (result) {
+                    SellServiceData = JSON.parse(result);
+                    dataSet=SellServiceData['list'];
+                    $('#example').DataTable().clear().rows.add(dataSet).draw();
+                    $('#labBasicId').text(SellServiceData['info'][0][1]);
+                    $('#labBasicTime').text(SellServiceData['info'][0][3]);
+                    $('#labBasicNumber').text(SellServiceData['info'][0][2]);
+                    $('#txtSellBasicID').val(SellServiceData['info'][0][0]);
+
+
+                    BackMenu();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Error!');
+                }
+            })
+        };
+
+        function SendTemp() {
+            $('#txtIsTemp').val('1');
+            $('#postInfo').submit();
+        }
+
+
         $(function () {
             $('#datetimepicker3').datetimepicker({
                 format: 'YYYY-DD-MM HH:mm'
             });
+
+
         });
     </script>
 
@@ -337,7 +369,6 @@
 <div class="container">
     {% include 'navbar.html' %}
     <!-- Main component for a primary marketing message or call to action -->
-    {#    <p>{{ r1.parentName }}</p>#}
     <div class="jumbotron col-lg-12 col-md-12" id="basicInfo">
         <p style="font-size: 16px">
             點單編號： <span id="labBasicId">{{ basicInfo.sellno }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;進入時間：<span
@@ -354,8 +385,8 @@
             {% endfor %}
 
             <button class="btn btn-success btn-menu" onclick="jvascript:ShowMenu('basicId')">顧客資訊</button>
-
-
+            <button class="btn btn-success btn-menu" onclick="jvascript:SendTemp()">暫存</button>
+            <button class="btn btn-success btn-menu" onclick="ShowMenu('basicId')">提取</button>
             <a href="#myModal" data-toggle="modal">
                 <button class="btn btn-warning btn-menu" onclick="jvascript:CountTotal()">結帳</button>
             </a>
@@ -369,7 +400,8 @@
                             {% autoescape off %}{{ m2.menuname }}{% endautoescape %}</button>
                     {% endif %}
                 {% endfor %}
-                <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">回上一頁
+                <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:BackMenu('menu{{ t1.menuid }}');">
+                    回上一頁
                 </button>
             </div>
         {% endfor %}
@@ -389,6 +421,7 @@
             <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscId');">更正</button>
             <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','txtBaiscId');">取消
             </button>
+            <button class="btn btn-lg btn-success btn-key" onclick="javascript:GetTempSell();">提取</button>
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicTime');">時間</button>
             <br>
         </div>
@@ -421,19 +454,6 @@
                     </span>
             </div>
 
-            {#            <input type="text" class="form-control" id="txtBaiscTime" style="height: 60px" placeholder="時間：HHMM">#}
-
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(1,'txtBaiscTime');">1</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(2,'txtBaiscTime');">2</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(3,'txtBaiscTime');">3</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(4,'txtBaiscTime');">4</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(5,'txtBaiscTime');">5</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(6,'txtBaiscTime');">6</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(7,'txtBaiscTime');">7</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(8,'txtBaiscTime');">8</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(9,'txtBaiscTime');">9</button>#}
-            {#            <button class="btn btn-lg btn-primary btn-key" onclick="javascript:Count(0,'txtBaiscTime');">0</button>#}
-            {#            <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscTime');">更正</button>#}
             <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','basicTime');">取消
             </button>
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicNumber');">人數</button>
@@ -482,29 +502,32 @@
                     {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
-            <button class="btn btn-lg btn-primary btn-menu" onclick="javascript:PushToListForAddition(0,0, '');">無加購</button>
+            <button class="btn btn-lg btn-primary btn-menu" onclick="javascript:PushToListForAddition(0,0, '');">無加購
+            </button>
         </div>
 
 
-      <div class="menu" id="menuAddList1" hidden >
-         <button class="btn btn-lg btn-primary btn-menu"
-                                onclick="javascript:PushToListForAddition(15,'1201', '加購-紅茶');">
-                            紅茶</button>
-          <button class="btn btn-lg btn-primary btn-menu"
-                                onclick="javascript:PushToListForAddition(15,'1202', '加購-美式咖啡');">
-                            美式咖啡</button>
-        <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁  </button>
-         </div>
+        <div class="menu" id="menuAddList1" hidden>
+            <button class="btn btn-lg btn-primary btn-menu"
+                    onclick="javascript:PushToListForAddition(15,'1201', '加購-紅茶');">
+                紅茶
+            </button>
+            <button class="btn btn-lg btn-primary btn-menu"
+                    onclick="javascript:PushToListForAddition(15,'1202', '加購-美式咖啡');">
+                美式咖啡
+            </button>
+            <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
+        </div>
 
 
-    <div class="menu" id="menuAddList2" hidden>
-     {% for item in menuAdditionList %}
-         <button class="btn btn-lg btn-primary btn-menu"
-                                onclick="javascript:PushToListForAddition(90,{{ item.menuid }}, '加購-{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
-                            {% autoescape off %}{{ item.menuname }}{% endautoescape %}</button>
-          {% endfor %}
-        <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁  </button>
-         </div>
+        <div class="menu" id="menuAddList2" hidden>
+            {% for item in menuAdditionList %}
+                <button class="btn btn-lg btn-primary btn-menu"
+                        onclick="javascript:PushToListForAddition(90,{{ item.menuid }}, '加購-{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
+                    {% autoescape off %}{{ item.menuname }}{% endautoescape %}</button>
+            {% endfor %}
+            <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
+        </div>
 
     </div>
     <div class="col-lg-6 col-md-6">
@@ -554,7 +577,7 @@
                                 </button>
                                 <button class="btn btn-danger btn-key" class="close" data-dismiss="modal">更正</button>
                                 <button class="btn btn-success btn-key" onclick="Recive()">結帳</button>
-                                <form action="/sell/" method="post">
+                                <form id="postInfo" action="/sell/" method="post">
                                     {% csrf_token %}
                                     <input type="text" id="sellList" name="sellList" hidden>
                                     <input type="text" id="txtBasicInfoID" name="txtBasicInfoID" hidden>
@@ -562,6 +585,7 @@
                                     <input type="text" id="txtBasicInfoNumber" name="txtBasicInfoNumber" hidden>
                                     <input type="text" id="txtBasicInfo" name="txtBasicInfo" hidden>
                                     <input type="text" id="txtSellBasicID" name="txtSellBasicID" hidden>
+                                    <input type="text" id="txtIsTemp" name="txtIsTemp" value="" hidden>
                                     <button class="btn btn-primary btn-key">完成</button>
                                 </form>
                             </div>

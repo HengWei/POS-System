@@ -32,6 +32,19 @@ class Sell(models.Model):
         app_label = 'POSSys'
 
 
+class SellTemp(models.Model):
+    sellid = models.BigIntegerField(db_column='sellId', primary_key=True)  # Field name made lowercase.
+    sellbasicid = models.BigIntegerField(db_column='sellBasicId')
+    sellitem = models.IntegerField(db_column='sellItem')  # Field name made lowercase.
+    sellquantity = models.IntegerField(db_column='sellQuantity')  # Field name made lowercase.
+    sellprice = models.IntegerField(db_column='sellPrice')
+
+    class Meta:
+        managed = False
+        db_table = 'Sell_Temp'
+        app_label = 'POSSys'
+
+
 class SellBasic(models.Model):
     sellbasicid = models.AutoField(db_column='sellBasicId', primary_key=True)  # Field name made lowercase.
     sellno = models.CharField(db_column='sellNo', max_length=45, blank=True, null=True)  # Field name made lowercase.

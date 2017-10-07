@@ -17,6 +17,7 @@ from django.conf.urls import url
 # from django.contrib import admin
 from POSSys.views import index
 from report.views import report, reportSum, reportCustomer
+from Service.views import GetRecord
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
@@ -24,6 +25,6 @@ urlpatterns = [
     url(r'^reportSum/$', reportSum),
     url(r'^reportCustomer/$', reportCustomer),
     url(r'^report/$', report),
-
+    url(r'^getRecord/$', GetRecord),
 
 ]

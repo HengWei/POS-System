@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from POSSys.models import Menu, Sell, SellBasic, MenuAddition
+from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp
 from datetime import datetime
 from django.utils import timezone
 # Create your views here.
@@ -20,6 +20,7 @@ def index(request):
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')
         dataSell = Sell()
+        dataSellTemp= SellTemp()
         if request.POST['txtSellBasicID'] == '':
             basicInfo.entrytime = request.POST['txtBasicInfoTime']
             basicInfo.sellno = request.POST['txtBasicInfoID']
@@ -34,20 +35,34 @@ def index(request):
             sellbasicid=request.POST['txtSellBasicID']
 
         # 0:id 1:name 2:single price 3:amount 4:total price
-        for idx, val in enumerate(data):
-            if (idx) % 5 == 0:
-                dataSell.sellitem = val
-            if (idx) % 5 == 3:
-                dataSell.sellquantity = val
-            if (idx) % 5 == 4:
-                dataSell.sellbasicid=basicInfo.sellbasicid
-                dataSell.selldatetime= datetime.now()
+        if request.POST['txtIsTemp']=='':
+            for idx, val in enumerate(data):
+                if (idx) % 5 == 0:
+                    dataSell.sellitem = val
+                if (idx) % 5 == 3:
+                    dataSell.sellquantity = val
+                if (idx) % 5 == 4:
+                    dataSell.sellbasicid = basicInfo.sellbasicid
+                    dataSell.selldatetime = datetime.now()
 
-                dataSell.sellprice=val
-                dataSell.sellhot=0
-                dataSell.save()
-                dataSell.clean()
-
+                    dataSell.sellprice = val
+                    dataSell.sellhot = 0
+                    dataSell.save()
+                    dataSell.clean()
+        else:
+            for idx, val in enumerate(data):
+                if (idx) % 5 == 0:
+                    dataSellTemp.sellitem = val
+                if (idx) % 5 == 3:
+                    dataSellTemp.sellquantity = val
+                if (idx) % 5 == 4:
+                    dataSellTemp.sellbasicid = basicInfo.sellbasicid
+                    dataSellTemp.sellprice = val
+                    dataSellTemp.save()
+                    dataSellTemp.clean()
+                    basicInfo.sellno=''
+                    basicInfo.entrytime=''
+                    basicInfo.customernumber=''
     return render(request, 'index.html', locals())
 
 
