@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 # from django.contrib import admin
-from POSSys.views import index, LoginPage
+from POSSys.views import index, LoginPage, LogOut
 from report.views import report, reportSum, reportCustomer
 from Service.views import GetRecord
 
@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^report/$', report),
     url(r'^getRecord/$', GetRecord),
     url(r'^login/$', LoginPage),
-
+    url(r'^logout/$', LogOut),
 ]

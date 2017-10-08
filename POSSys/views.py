@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp
+from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.utils import timezone
@@ -9,6 +9,9 @@ from django.utils import timezone
 
 def index(request):
     # Set Basic Info
+    if not LoginCheck(request):
+        return HttpResponseRedirect('/login/')
+
     basicInfo = SellBasic()
     basicInfo.entrytime = ''
     basicInfo.sellno = ''
@@ -75,12 +78,12 @@ def Check(request):
 
 def LogOut(request):
     request.session.clear()
-    return HttpResponseRedirect('/signin')
+    return HttpResponseRedirect('/login/')
 #
 #
 def LoginPage(request):
     if LoginCheck(request):
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/sell/')
 
     if request.method == 'GET':
         return render(request, 'login.html', locals())
@@ -89,26 +92,25 @@ def LoginPage(request):
         errorMessage = ''
         username = request.POST.get('inputName', '')
         password = request.POST.get('inputPassword', '')
-        vaildate=Users.objects.filter(user_id=username, user_password=md5(password))
+        vaildate=POSUser.objects.filter(userloginid=username, userloginpw=password)
         if not vaildate:
             errorMessage = 'Sing in error!'
             return render(request, 'login.html', locals())
         else:
-            searchResult=Users.objects.filter(user_id=username, user_password=md5(password)).get()
-            request.session['UserName'] = searchResult.user_name
-            request.session['UserId']=searchResult.user_id
-            request.session['UserPKID']=searchResult.employee_id
-            functionId = Prilivege.objects.filter(group_id__in=map(int, searchResult.group_pkid.split(','))).all()
+            searchResult=POSUser.objects.filter(userloginid=username, userloginpw=password).get()
+            request.session['UserName'] = searchResult.username
+            request.session['UserId']=searchResult.userid
+            # request.session['UserPKID']=searchResult.employee_id
+            # functionId = Prilivege.objects.filter(group_id__in=map(int, searchResult.group_pkid.split(','))).all()
             f = []
-            for item in functionId:
-                f = list(set(f) | set(map(int, item.function_id.split(','))))
-            request.session['Auth'] = f
+            # for item in functionId:
+            #     f = list(set(f) | set(map(int, item.function_id.split(','))))
+            # request.session['Auth'] = f
             return HttpResponseRedirect('/sell/')
 
 def LoginCheck(request):
 
     if request.session.get('UserName', '') == '':
-
         return False
     else:
         return True
