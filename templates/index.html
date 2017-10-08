@@ -107,6 +107,7 @@
                     if ((dataSet[i][0] == getData[0]) && (dataSet[i][3] == getData[3])) {
                         dataSet.splice(i, 1);
                         myTable.clear().rows.add(dataSet).draw();
+                        $('#sellList').val(dataSet);
                     }
                 }
             });
@@ -298,6 +299,7 @@
 
          function SendSell() {
             $('#txtIsTemp').val('0');
+            $('#sellList').val(dataSet);
             $('#postInfo').submit();
         }
 

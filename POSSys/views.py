@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp
 from datetime import datetime
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 
 
@@ -69,3 +70,46 @@ def index(request):
 
 def Check(request):
     return render(request, 'check.html', locals())
+
+
+
+def LogOut(request):
+    request.session.clear()
+    return HttpResponseRedirect('/signin')
+#
+#
+def LoginPage(request):
+    if LoginCheck(request):
+        return HttpResponseRedirect('/')
+
+    if request.method == 'GET':
+        return render(request, 'login.html', locals())
+
+    if request.method == 'POST':
+        errorMessage = ''
+        username = request.POST.get('inputName', '')
+        password = request.POST.get('inputPassword', '')
+        vaildate=Users.objects.filter(user_id=username, user_password=md5(password))
+        if not vaildate:
+            errorMessage = 'Sing in error!'
+            return render(request, 'login.html', locals())
+        else:
+            searchResult=Users.objects.filter(user_id=username, user_password=md5(password)).get()
+            request.session['UserName'] = searchResult.user_name
+            request.session['UserId']=searchResult.user_id
+            request.session['UserPKID']=searchResult.employee_id
+            functionId = Prilivege.objects.filter(group_id__in=map(int, searchResult.group_pkid.split(','))).all()
+            f = []
+            for item in functionId:
+                f = list(set(f) | set(map(int, item.function_id.split(','))))
+            request.session['Auth'] = f
+            return HttpResponseRedirect('/sell/')
+
+def LoginCheck(request):
+
+    if request.session.get('UserName', '') == '':
+
+        return False
+    else:
+        return True
+

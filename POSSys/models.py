@@ -69,3 +69,15 @@ class MenuAddition(models.Model):
         managed = False
         db_table = 'Menu_Addition'
         app_label = 'POSSys'
+
+
+class POSUser(models.Model):
+    userid = models.IntegerField(db_column='userId', primary_key=True)  # Field name made lowercase.
+    username = models.CharField(db_column='userName', max_length=150)  # Field name made lowercase.
+    userloginid = models.IntegerField(db_column='userLoingID')  # Field name made lowercase.
+    userloginpw = models.IntegerField(db_column='userLoginPW')  # Field name made lowercase.
+    authority = models.IntegerField(db_column='Authority')
+    class Meta:
+        managed = False
+        db_table = 'POSUser'
+        app_label = 'POSSys'
