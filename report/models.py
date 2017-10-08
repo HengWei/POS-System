@@ -48,10 +48,10 @@ class SellSumManager(models.Manager):
     def GetSellTotal(self):
         curosr = connection.cursor()
         sqlStr = '''
-                  SELECT date_format(DATE_ADD(sellDatetime,INTERVAL 8 HOUR),'%b-%d') as sellDate
+                  SELECT date_format(sellDatetime,'%Y-%m-%d') as sellDate
                   , SUM(sellPrice) FROM Sell
                   WHERE sellDatetime IS NOT NULL
-                  GROUP BY date_format(DATE_ADD(sellDatetime,INTERVAL 8 HOUR),'%b-%d')
+                  GROUP BY date_format(sellDatetime,'%Y-%m-%d')
                 '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
@@ -70,9 +70,9 @@ class SellSumManager(models.Manager):
                     SELECT c.Hour, ifnull(b.num, 0) as num
                     FROM Code_Hour c
                     LEFT JOIN (
-                    SELECT date_format(DATE_ADD(entryTime, INTERVAL 8 HOUR), '%k') as times, SUM(customerNumber) as num
+                    SELECT date_format(entryTime, '%k') as times, SUM(customerNumber) as num
                     FROM Sell_Basic
-                    GROUP BY date_format(DATE_ADD(entryTime, INTERVAL 8 HOUR), '%k')) b ON c.Hour=b.times
+                    GROUP BY date_format(entryTime, '%k')) b ON c.Hour=b.times
                     ORDER BY c.Hour
                   '''
         curosr.execute(sqlStr)
