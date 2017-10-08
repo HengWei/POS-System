@@ -12,3 +12,15 @@ settings.py
 ;;directories to ignore
 .idea/
 
+POSSys/__init__.pyc
+POSSys/models.pyc
+POSSys/views.pyc
+POSSystem/__init__.pyc
+POSSystem/settings.pyc
+POSSystem/urls.pyc
+POSSys/__init__.pyc
+POSSys/models.pyc
+POSSys/views.pyc
+POSSystem/__init__.pyc
+POSSystem/settings.pyc
+POSSystem/urls.pyc
