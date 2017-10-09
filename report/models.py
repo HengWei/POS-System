@@ -85,5 +85,27 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
+    def GetSellList(self):
+        curosr = connection.cursor()
+        sqlStr = '''                   
+          SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total FROM Sell_Basic as a
+          LEFT JOIN Sell as b ON a.sellBasicId=b.sellBasicId
+          GROUP BY sellNo, entryTime, customerNumber
+          ORDER BY sellNo
+                  '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['sellNo'] = obj[0]
+            dic['entryTime'] = obj[1]
+            dic['customerNumber'] = obj[2]
+            dic['income'] = obj[3]
+            result.append(dic)
+        return result
+
+
+
 class SellSum(models.Model):
     object = SellSumManager()
