@@ -19,7 +19,7 @@ def index(request):
     sellbasicid = ''
     menuList = Menu.objects.filter(menuparentid=0)
     menu1 = Menu.objects.all().exclude(menuparentid=0)
-    menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).filter(menuadditionparentid=0)
+    menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).order_by('menuadditionname')
     menuAdditionList = Menu.objects.filter(menuparentid__range=(1, 5))
 
     if request.method == 'POST':

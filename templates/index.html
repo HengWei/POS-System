@@ -53,6 +53,7 @@
         {#        var dataSet = {};#}
         var getData = [];
         var DataTemp = [];
+        var addPrice = 0;
         $(document).ready(function () {
 
             dataSet = [];
@@ -73,7 +74,7 @@
                         "defaultContent": '<nobr> <button type="button" class="btn-tra glyphicon glyphicon-trash"></button> </nobr>'
                     },
                 ]
-            ;
+                ;
 
             var myTable;
 
@@ -130,6 +131,18 @@
             }
             else {
                 var additionItem = addition.split(',');
+                $('#btnAdd1').hide();
+                $('#btnAdd2').hide();
+                $('#btnAdd3').hide();
+                $('#btnAdd4').hide();
+
+
+                $.each(additionItem, function (index, value) {
+                    str='#btnAdd'+value;
+                    console.log(str);
+                    $(str).show();
+                });
+
                 $('#addition').show(speed);
             }
 
@@ -269,7 +282,8 @@
 
             $('#labBasicTime').text($('#txtBaiscTime').val());
             $('#txtBasicInfoTime').val($('#txtBaiscTime').val());
-        };
+        }
+        ;
 
         function GetTempSell() {
             $.ajax({
@@ -277,7 +291,7 @@
                 url: "/getRecord/?id=" + $('#txtBaiscId').val(),
                 success: function (result) {
                     SellServiceData = JSON.parse(result);
-                    dataSet=SellServiceData['list'];
+                    dataSet = SellServiceData['list'];
                     $('#example').DataTable().clear().rows.add(dataSet).draw();
                     $('#sellList').val(dataSet);
                     $('#labBasicId').text(SellServiceData['info'][0][1]);
@@ -290,17 +304,23 @@
                     alert('Error!');
                 }
             })
-        };
+        }
+        ;
 
         function SendTemp() {
             $('#txtIsTemp').val('1');
             $('#postInfo').submit();
         }
 
-         function SendSell() {
+        function SendSell() {
             $('#txtIsTemp').val('0');
             $('#sellList').val(dataSet);
             $('#postInfo').submit();
+        }
+
+        function ShowAddition(menu, price) {
+            addPrice = price;
+            ShowMenu(menu);
         }
 
         $(function () {
@@ -500,23 +520,26 @@
         </div>
         <div id="addition" class="menu" style="display: none">
             {% for addItem in menuAddition %}
-                <button class="btn btn-lg btn-primary btn-menu"
-                        onclick="javascript:ShowMenu('menuAddList{{ addItem.menuadditionid }}');">
+                <button id="btnAdd{{ addItem.menuadditionid }}" class="btn btn-lg btn-primary btn-menu"
+                        onclick="javascript:ShowAddition('menuAddList{{ addItem.menuadditionparentid }}',{{ addItem.menuadditionprice }});">
                     {% autoescape off %}{{ addItem.menuadditionname }}{% endautoescape %}</button>
 
             {% endfor %}
             <button class="btn btn-lg btn-primary btn-menu" onclick="javascript:PushToListForAddition(0,0, '');">無加購
             </button>
+            <button class="btn btn-lg btn-danger btn-menu" onclick="javascript:BackMenu();">取消</button>
+
+
         </div>
 
 
         <div class="menu" id="menuAddList1" hidden>
             <button class="btn btn-lg btn-primary btn-menu"
-                    onclick="javascript:PushToListForAddition(15,'1201', '加購-紅茶');">
+                    onclick="javascript:PushToListForAddition(addPrice,'1201', '加購-紅茶');">
                 紅茶
             </button>
             <button class="btn btn-lg btn-primary btn-menu"
-                    onclick="javascript:PushToListForAddition(15,'1202', '加購-美式咖啡');">
+                    onclick="javascript:PushToListForAddition(addPrice,'1202', '加購-美式咖啡');">
                 美式咖啡
             </button>
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
@@ -526,7 +549,7 @@
         <div class="menu" id="menuAddList2" hidden>
             {% for item in menuAdditionList %}
                 <button class="btn btn-lg btn-primary btn-menu"
-                        onclick="javascript:PushToListForAddition(90,{{ item.menuid }}, '加購-{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
+                        onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, '加購-{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
                     {% autoescape off %}{{ item.menuname }}{% endautoescape %}</button>
             {% endfor %}
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
