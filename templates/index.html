@@ -105,7 +105,7 @@
             $('#example tbody').on('click', '.btn-tra', function (e) {
                 getData = myTable.row($(this).parents('tr')).data();
                 for (i = 0; i < dataSet.length; i++) {
-                    if ((dataSet[i][0] == getData[0]) && (dataSet[i][3] == getData[3])) {
+                    if ((dataSet[i][0] == getData[0]) && (dataSet[i][3] == getData[3] ) && (dataSet[i][2] == getData[2] )) {
                         dataSet.splice(i, 1);
                         myTable.clear().rows.add(dataSet).draw();
                         $('#sellList').val(dataSet);
