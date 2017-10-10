@@ -8,11 +8,18 @@ class SellSumManager(models.Manager):
     def GetSellSumDetail(self):
         curosr = connection.cursor()
         sqlStr = '''
-          SELECT Menu.menuParentId ,Menu.menuId, Menu.menuName, IFNULL(SUM(Sell.sellQuantity),0) as Number
-          FROM Menu LEFT JOIN Sell ON Menu.menuId=Sell.sellItem
-          WHERE Menu.menuParentId <> 0
-          GROUP BY Menu.menuParentId, Menu.menuId, Menu.menuName
-          ORDER BY Menu.menuParentId, Menu.menuId
+        SELECT a.menuParentId,a.menuId,a.menuName , ROUND(IFNULL(a.Number/b.Number,0)*100,1) as Number 
+        FROM (
+        SELECT Menu.menuParentId ,Menu.menuId, Menu.menuName, IFNULL(SUM(Sell.sellQuantity),0) as Number
+        FROM Menu LEFT JOIN Sell ON Menu.menuId=Sell.sellItem
+        WHERE Menu.menuParentId <> 0
+        GROUP BY Menu.menuParentId, Menu.menuId, Menu.menuName
+        ORDER BY Menu.menuParentId, Menu.menuId) as a
+        LEFT JOIN (SELECT Menu.menuParentId , IFNULL(SUM(Sell.sellQuantity),0) as Number
+        FROM Menu LEFT JOIN Sell ON Menu.menuId=Sell.sellItem
+        WHERE Menu.menuParentId <> 0
+        GROUP BY Menu.menuParentId
+        ) as b ON a.menuParentId=b.menuParentId 
         '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
@@ -29,7 +36,8 @@ class SellSumManager(models.Manager):
     def GetSellSum(self):
         curosr = connection.cursor()
         sqlStr = '''
-          SELECT parentId ,parentName, IFNULL(SUM(Sell.sellQuantity),0) as Number
+          SELECT parentId ,parentName, ROUND((IFNULL(SUM(Sell.sellQuantity),0)/(SELECT SUM(Sell.sellQuantity)
+          FROM Sell))*100,1) as Number 
           FROM view_menu LEFT JOIN Sell ON view_menu.detailId =Sell.sellItem
           GROUP BY parentId,parentName
           ORDER BY parentId
@@ -87,11 +95,12 @@ class SellSumManager(models.Manager):
 
     def GetSellList(self):
         curosr = connection.cursor()
-        sqlStr = '''                   
-          SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total FROM Sell_Basic as a
-          LEFT JOIN Sell as b ON a.sellBasicId=b.sellBasicId
-          GROUP BY sellNo, entryTime, customerNumber
-          ORDER BY sellNo
+        sqlStr = '''          
+                    SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total 
+                    FROM Sell_Basic as a
+                    LEFT JOIN Sell as b ON a.sellBasicId=b.sellBasicId
+                    GROUP BY sellNo, entryTime, customerNumber
+                    ORDER BY sellNo;                  
                   '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
