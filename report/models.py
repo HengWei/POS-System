@@ -56,10 +56,9 @@ class SellSumManager(models.Manager):
     def GetSellTotal(self):
         curosr = connection.cursor()
         sqlStr = '''
-                  SELECT date_format(sellDatetime,'%Y-%m-%d') as sellDate
-                  , SUM(sellPrice) FROM Sell
-                  WHERE sellDatetime IS NOT NULL
-                  GROUP BY date_format(sellDatetime,'%Y-%m-%d')
+                 SELECT date_format(entryTime,'%Y-%m-%d') as sellDate, SUM(sellPrice) FROM Sell_Basic as a 
+                 LEFT JOIN Sell as b  ON a.sellBasicId=b.sellBasicId
+                 GROUP BY date_format(entryTime,'%Y-%m-%d')
                 '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
