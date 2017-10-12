@@ -112,7 +112,7 @@
                     data: [
                         {% for item in data %}
                             {
-                                name: '{{ item.parentName }}',
+                                name: '{% autoescape off %}{{ item.parentName }}{% endautoescape %}',
                                 y: {{ item.number }},
                                 drilldown: '{{ item.parentName }}'
                             },
@@ -123,12 +123,12 @@
                     series: [
                         {% for item in data %}
                             {
-                                name: '{{ item.parentName }}',
+                                name: '{% autoescape off %}{{ item.parentName }}{% endautoescape %}',
                                 id: '{{ item.parentName }}',
                                 data: [
                                     {% for detail in dataDetail %}
                                         {% if detail.parentId == item.parentId %}
-                                            ['{{ detail.menuName }}',{{ detail.number }}],
+                                            ['{% autoescape off %}{{ detail.menuName }}{% endautoescape %}',{{ detail.number }}],
                                         {% endif %}
                                     {% endfor %}
                                 ]
