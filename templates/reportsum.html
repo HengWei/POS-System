@@ -109,6 +109,29 @@
     <div class="">
         <div id="container" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
     </div>
+    <hr>
+     <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>銷售額</th>
+                  <th>顧客數</th>
+                  <th>客單價</th>
+                  <th>翻桌率</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in data %}
+                <tr>
+                 <td>{{item.date}}</td>
+                  <td>{{item.total}}</td>
+                  <td>{{item.customer}}</td>
+                  <td>{{item.avg}}</td>
+                  <td>{{item.rate}}</td>
+                </tr>
+               {% endfor %}
+              </tbody>
+            </table>
 </div> <!-- /container -->
 
 
