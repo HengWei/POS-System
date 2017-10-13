@@ -56,7 +56,7 @@ class SellSumManager(models.Manager):
     def GetSellTotal(self):
         curosr = connection.cursor()
         sqlStr = '''
-                 SELECT a.sellDate, a.sellPrice, b.customer, ROUND((a.sellPrice/b.customer),0) as avgCustomer, (b.customer/7) as rate
+                 SELECT a.sellDate, IFNULL(a.sellPrice,0), b.customer, IFNULL(ROUND((a.sellPrice/b.customer),0),0) as avgCustomer, ROUND((b.customer/7),2) as rate
                  FROM (SELECT date_format(entryTime,'%Y-%m-%d') as sellDate, SUM(sellPrice) as sellPrice FROM Sell_Basic as a 
                  LEFT JOIN Sell as b  ON a.sellBasicId=b.sellBasicId
                  GROUP BY date_format(entryTime,'%Y-%m-%d')) as a
