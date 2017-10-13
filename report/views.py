@@ -8,6 +8,7 @@ from report.models import SellSum
 def report(request):
     data = SellSum.object.GetSellSum()
     dataDetail=SellSum.object.GetSellSumDetail()
+    top10List=SellSum.object.Top10List()
     return render(request, 'report.html', locals())
 
 def reportSum(request):

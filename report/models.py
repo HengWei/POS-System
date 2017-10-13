@@ -120,7 +120,22 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-
+    def Top10List(self):
+        curosr = connection.cursor()
+        sqlStr = '''
+                 SELECT CONCAT(b.parentName,' - ',REPLACE(b.detailName,'<br>','')) as Name, a.sellQuantity 
+                 FROM (SELECT sellItem ,SUM(sellQuantity) as sellQuantity FROM Sell GROUP BY sellItem ORDER BY SUM(sellQuantity) DESC LIMIT 10) as a 
+                 LEFT JOIN (SELECT detailId, detailName, parentName FROM view_menu) as b ON a.sellItem=b.detailId
+                '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['name'] = obj[0]
+            dic['number'] = obj[1]
+            result.append(dic)
+        return result
 
 class SellSum(models.Model):
     object = SellSumManager()

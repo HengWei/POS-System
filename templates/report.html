@@ -155,7 +155,26 @@
         {#        <div id="container" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>#}
         <div id="container" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>
     </div>
-
+    <hr>
+    <H2>銷售 TOP 10</H2>
+      <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>名次</th>
+                  <th>品名</th>
+                  <th>數量</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in top10List %}
+                <tr>
+                 <td>{{ forloop.counter }} {# starting index 1 #}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.number}}</td>
+                </tr>
+               {% endfor %}
+              </tbody>
+            </table>
 </div> <!-- /container -->
 
 
