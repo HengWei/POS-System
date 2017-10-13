@@ -11,7 +11,7 @@ class SellListModel(models.Manager):
           WHERE sellBasicId = (
           SELECT MAX(sellBasicId) 
           FROM Affogato.Sell_Basic 
-          WHERE sellNo=''' + sellNo + ''')) as t1
+          WHERE sellNo=''' + sellNo + ''')  AND isDelete=0) as t1
           LEFT JOIN Affogato.Menu as t2 ON ( t1.sellItem=t2.menuId);
         '''
         curosr.execute(sqlStr)
@@ -22,7 +22,7 @@ class SellListModel(models.Manager):
             dic['sellItem'] = obj[2]
             dic['sellQuantity'] = obj[3]
             dic['sellPrice'] = obj[4]
-            dic['menuName'] = obj[6]
+            dic['menuName'] = obj[7]
             result.append(dic)
         return result
 
