@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from report.models import SellSum
+import datetime
 
 
 # Create your views here.
@@ -20,5 +21,12 @@ def reportCustomer(request):
     return render(request, 'reportCustomer.html',locals())
 
 def reportSellList(request):
-    data= SellSum.object.GetSellList()
+
+    if request.method == 'GET':
+        startDate=datetime.datetime.now().strftime('%Y//%m//%d')
+        endDate= datetime.datetime.now().strftime('%Y//%m//%d')
+    if request.method == 'POST':
+        startDate=request.POST['startDate']
+        endDate=request.POST['endDate']
+    data= SellSum.object.GetSellList(startDate, endDate)
     return render(request, 'reportSellList.html',locals())

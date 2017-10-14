@@ -12,34 +12,57 @@
     <meta name="author" content="">
     <title>Affogato Café POS System Demo Version</title>
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/daterangepicker.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
     <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
     <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
-    {#<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>#}
+{#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    {#    <script src="https://code.highcharts.com/modules/data.js"></script>#}
-    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-    {##}
-    {##}
-    {#    <script type="text/javascript" src="{% static "js/highcharts.js" %}"></script>#}
-
-    {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
-    {#    <link href="{% static "js/jquery.dataTables.min.js" %}" rel="stylesheet">#}
-
-    {#    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">#}
-
-    {#    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>#}
+    <script src={% static "js/bootstrap.min.js" %}></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
+    <script src="{% static "js/moment.js" %}"></script>
+    <script src="{% static "js/daterangepicker.js" %}"></script>
+    <script src=" {% static "js/jquery.blockUI.js" %} "></script>
 
 
-    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
-    <link href="{% static "js/ie-emulation-modes-warning.js" %}" rel="stylesheet">
+    <style type="text/css">
+        .demo {
+            position: relative;
+        }
 
+        .demo i {
+            position: absolute;
+            bottom: 10px;
+            right: 24px;
+            top: auto;
+            cursor: pointer;
+        }
+    </style>
 </head>
+<script>
+    $(document).ready(function () {
 
+        $('#config-demo').daterangepicker({
+            "autoApply": true,
+            "linkedCalendars": false,
+            "startDate": "{{ startDate }}",
+            "endDate": "{{ endDate }}",
+            locale: {
+                format: 'YYYY/MM/DD'
+            }
+        }, function (start, end, label) {
+            $.blockUI({ message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料讀取中...</h1>' });
+            $('#startDate').val(start.format('YYYY/MM/DD'));
+            $('#endDate').val(end.format('YYYY/MM/DD'));
+            $('#postInfo').submit();
+        });
+    });
+
+
+</script>
 
 {#<script type="text/javascript" language="javascript"#}
 {#        src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>#}
@@ -49,27 +72,48 @@
     {% include 'navbar.html' %}
 
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="">
+    <div class="col-md-4 col-md-offset-0 demo">
+        <h4>搜尋區間</h4>
+        <input type="text" id="config-demo" class="form-control" value="{{ preDate }}">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+
+        <form id="postInfo" action="/reportSellList/" method="post">
+            {% csrf_token %}
+            <input type="text" id="startDate" name="startDate" hidden>
+            <input type="text" id="endDate" name="endDate" hidden>
+            <input type="text" id="preDate" name="preDate" hidden>
+        </form>
+
+
+
+
+
+    </div>
+    <div class="col-md-8"></div>
+
+
+    <div class="col-md-12">
+        <hr>
         <table class="table table-striped">
-              <thead>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>進入時間</th>
+                <th>顧客人數</th>
+                <th>單張總金額</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
                 <tr>
-                  <th>#</th>
-                  <th>進入時間</th>
-                  <th>顧客人數</th>
-                  <th>單張總金額</th>
+                    <td>{{ item.sellNo }}</td>
+                    <td>{{ item.entryTime }}</td>
+                    <td>{{ item.customerNumber }}</td>
+                    <td>{{ item.income }}</td>
                 </tr>
-              </thead>
-              <tbody>
-              {% for item in data %}
-                <tr>
-                  <td>{{item.sellNo}}</td>
-                  <td>{{item.entryTime}}</td>
-                  <td>{{item.customerNumber}}</td>
-                  <td>{{item.income}}</td>
-                </tr>
-               {% endfor %}
-              </tbody>
-            </table>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
 </div> <!-- /container -->
@@ -78,10 +122,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src={% static "js/jquery-3.2.0.min.js" %}><\/script>')</script>
-<script src={% static "js/bootstrap.min.js" %}></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>
+
 </body>
 </html>

@@ -99,15 +99,23 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-    def GetSellList(self):
+    def GetSellList(self,startDate,endDate):
         curosr = connection.cursor()
         sqlStr = '''          
                     SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total 
                     FROM Sell_Basic as a
                     LEFT JOIN Sell as b ON a.sellBasicId=b.sellBasicId
-                    GROUP BY sellNo, entryTime, customerNumber
-                    ORDER BY sellNo;                  
-                  '''
+                    WHERE isDelete=0
+                    '''
+
+        if not startDate=='':
+            sqlStr +='''AND a.entryTime > ' '''  + startDate + ''' 00:00:00 ' '''
+
+        if not endDate == '':
+            sqlStr += '''AND a.entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
+
+        sqlStr+='''  GROUP BY sellNo, entryTime, customerNumber ORDER BY sellNo;'''
+
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
         result = []
@@ -123,8 +131,8 @@ class SellSumManager(models.Manager):
     def Top10List(self):
         curosr = connection.cursor()
         sqlStr = '''
-                 SELECT CONCAT(b.parentName,' - ',REPLACE(b.detailName,'<br>','')) as Name, a.sellQuantity 
-                 FROM (SELECT sellItem ,SUM(sellQuantity) as sellQuantity FROM Sell GROUP BY sellItem ORDER BY SUM(sellQuantity) DESC LIMIT 10) as a 
+                 SELECT CONCAT(b.parentName,' - ',REPLACE(b.detailName,'<br>','')) as Name, a.sellQuantity
+                 FROM (SELECT sellItem ,SUM(sellQuantity) as sellQuantity FROM Sell GROUP BY sellItem ORDER BY SUM(sellQuantity) DESC LIMIT 10) as a
                  LEFT JOIN (SELECT detailId, detailName, parentName FROM view_menu) as b ON a.sellItem=b.detailId
                 '''
         curosr.execute(sqlStr)
