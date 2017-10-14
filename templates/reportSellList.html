@@ -94,6 +94,7 @@
 
     <div class="col-md-12">
         <hr>
+        {% if data|length > 0 %}
         <table class="table table-striped">
             <thead>
             <tr>
@@ -114,6 +115,9 @@
             {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h1>本日無資料</h1>
+        {% endif %}
     </div>
 
 </div> <!-- /container -->
