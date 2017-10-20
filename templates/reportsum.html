@@ -39,7 +39,7 @@
         $(document).ready(function () {
             Highcharts.chart('container', {
     chart: {
-        type: 'column'
+        zoomType: 'xy'
     },
     title: {
         text: '每日營業額'
@@ -47,46 +47,78 @@
     subtitle: {
         text: ''
     },
-    xAxis: {
-        type: 'category',
-        labels: {
-            rotation: -45,
-            style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: '新台幣（元）'
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        pointFormat: '總金額: <b>{point.y:.0f} 元</b>'
-    },
-    series: [{
-        name: '金額',
-        data: [
-            {% for item in data %}
-                ['{{ item.date }}',{{ item.total}}],
+    xAxis: [{
+        categories: [
+             {% for item in data %}
+                '{{ item.date }}',
             {% endfor %}
         ],
-        dataLabels: {
-            enabled: true,
-            rotation: -90,
-            color: '#FFFFFF',
-            align: 'right',
-            format: '{point.y:.0f}', // one decimal
-            y: 10, // 10 pixels down from the top
+        crosshair: true
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value} 元',
             style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                color: Highcharts.getOptions().colors[1]
             }
+        },
+        title: {
+            text: '客單價',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        }
+    }, { // Secondary yAxis
+        title: {
+            text: '營業額',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} 元',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+    },
+    series: [{
+        name: '營業額',
+        type: 'column',
+        yAxis: 1,
+        data: [
+             {% for item in data %}
+                {{ item.total }},
+            {% endfor %}
+        ],
+        tooltip: {
+            valueSuffix: ' 元'
+        }
+
+    }, {
+        name: '客單價',
+        type: 'spline',
+        data: [
+               {% for item in data %}
+                {{ item.avg }},
+            {% endfor %}
+
+        ],
+        tooltip: {
+            valueSuffix: ' 元/人'
         }
     }]
 });
