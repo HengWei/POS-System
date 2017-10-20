@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser, MenuBack
+from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.utils import timezone
@@ -119,17 +119,17 @@ def LoginCheck(request):
 def MenuSetting(request):
     if not LoginCheck(request):
         return HttpResponseRedirect('/login/')
-    menuList = MenuBack.objects.filter(menuparentid=request.GET['id'])
+    menuList = Menu.objects.filter(menuparentid=request.GET['id'])
     return render(request, 'MenuSettingList.html', locals())
 
 def MenuSettingDetail(request):
     if not LoginCheck(request):
         return HttpResponseRedirect('/login/')
     if request.method=='GET':
-        menuParentList=MenuBack.objects.filter(menuparentid=0)
-        menu = MenuBack.objects.get(menuid=request.GET['id'])
+        menuParentList=Menu.objects.filter(menuparentid=0)
+        menu = Menu.objects.get(menuid=request.GET['id'])
     else:
-        menu=MenuBack.objects.get(menuid=request.POST['menuId'])
+        menu=Menu.objects.get(menuid=request.POST['menuId'])
         menu.id=request.POST['menuId']
         menu.menuname=request.POST['menuName']
         menu.menuparentid=request.POST['menuParent']
