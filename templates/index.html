@@ -554,8 +554,8 @@
         <div class="menu" id="menuAddList2" hidden>
             {% for item in menuAdditionList %}
                 <button class="btn btn-lg btn-primary btn-menu"
-                        onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, '{% if item.menuparentid == 1 %}冷飲{% else %}熱飲{% endif %}{% autoescape off %}<br>{{ item.menuname }}{% endautoescape %}');">
-                    {% if item.menuparentid == 1 %}冷飲{% elif item.menuparentid == 2 %}熱飲{% endif %}{% autoescape off %}<br>{{ item.menuname }}{% endautoescape %}</button>
+                        onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, '{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
+                    {% autoescape off %}{{ item.menuname }}{% endautoescape %}</button>
             {% endfor %}
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
         </div>
