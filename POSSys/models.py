@@ -4,6 +4,18 @@ from django.db import models
 from django.db import connection
 
 
+class MenuBack(models.Model):
+    menuid = models.IntegerField(db_column='menuId', primary_key=True)  # Field name made lowercase.
+    menuname = models.CharField(db_column='menuName', max_length=50)  # Field name made lowercase.
+    menuprice = models.IntegerField(db_column='menuPrice')  # Field name made lowercase.
+    menuparentid = models.IntegerField(db_column='menuParentId')  # Field name made lowercase.
+    menuaddition = models.CharField(db_column='menuaddition', max_length=45)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'BackupMenu'
+        app_label = 'POSSys'
+
 class Menu(models.Model):
     menuid = models.IntegerField(db_column='menuId', primary_key=True)  # Field name made lowercase.
     menuname = models.CharField(db_column='menuName', max_length=50)  # Field name made lowercase.
