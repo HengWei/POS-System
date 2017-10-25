@@ -93,6 +93,7 @@ class SellSumManager(models.Manager):
                     SELECT date_format(entryTime, '%k') as times, SUM(customerNumber) as num
                     FROM Sell_Basic
                     GROUP BY date_format(entryTime, '%k')) b ON c.Hour=b.times
+                    WHERE c.Hour BETWEEN 12 AND 21
                     ORDER BY c.Hour
                   '''
         curosr.execute(sqlStr)
