@@ -23,3 +23,14 @@ def GetRecord(request):
 
     result = json.dumps(resultData)
     return HttpResponse(result)
+
+
+def GetTempList(request):
+    data = Sell.object.SellTempList()
+    obj = []
+    for item in data:
+        obj.append([item['sellItem'], item['menuName'], item['sellPrice'], item['sellQuantity'], item['sellPrice']])
+    resultData = {'list': obj}
+    result = json.dumps(resultData)
+    return HttpResponse(result)
+

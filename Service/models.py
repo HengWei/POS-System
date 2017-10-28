@@ -46,6 +46,24 @@ class SellListModel(models.Manager):
             result1.append(dic)
         return result1
 
+    def SellTempList(self):
+        curosr = connection.cursor()
+        sqlStr = '''
+                   SELECT sellBasicId, sellNo, customerNumber, entryTime FROM Sell_Basic WHERE sellBasicId IN (
+                   SELECT sellBasicId FROM Sell_Temp WHERE isDelete=0 GROUP BY sellBasicId);
+                '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['sellBasicId'] = obj[0]
+            dic['sellNo'] = obj[1]
+            dic['customerNumber'] = obj[2]
+            dic['entryTime'] = obj[3]
+            result.append(dic)
+        return result
+
 
 class Sell(models.Model):
     object = SellListModel()
