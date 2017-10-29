@@ -76,9 +76,9 @@
                 ]
                 ;
 
-            var myTable;
+{#            var myTable;#}
 
-            myTable = $('#example').DataTable({
+            var myTable = $('#example').DataTable({
                 {#                "sPaginationType": "full_numbers",#}
                 data: dataSet,
                 columns: columnDefs,
@@ -113,6 +113,53 @@
                     }
                 }
             });
+
+            var columnDefs2 = [
+                    {
+                        title: "basicId",
+                        visible: false,
+                    },
+                    {
+                        title: "單號"
+                    }, {
+                        title: "人數"
+                    }, {
+                        title: "進入時間"
+                    }, {
+                        title: ""
+                    }, {
+                        "defaultContent": '<nobr> <button type="button" class="btn-tra glyphicon glyphicon-download-alt"></button> </nobr>'
+                    },
+                ]
+                ;
+
+{#            var myTable;#}
+
+            var myTable2 = $('#loadTemp').DataTable({
+                {#                "sPaginationType": "full_numbers",#}
+                data: dataSet,
+                columns: columnDefs2,
+                ordering: false,
+                bFilter: false,
+                bPaginate: false,
+                {#                dom: 'Bfrtip',        // Needs button container#}
+                {#                select: 'single',#}
+                {#                responsive: true,#}
+                {#                altEditor: true,     // Enable altEditor#}
+
+                {#                    {#}
+                {#                        extend: 'selected', // Bind to Selected row#}
+                {#                        text: 'Edit',#}
+                {#                        name: 'edit'        // do not change name#}
+                {#                    },#}
+                {#                    {#}
+                {#                        extend: 'selected', // Bind to Selected row#}
+                {#                        text: 'Delete',#}
+                {#                        name: 'delete'      // do not change name#}
+                {#                    }]#}
+            });
+
+
         });
     </script>
 
@@ -560,14 +607,29 @@
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
         </div>
 
+        <div>
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="loadTemp"
+               width="100%">
+            </table>
+        </div>
+
     </div>
     <div class="col-lg-6 col-md-6">
 
         <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="example"
                width="100%">
         </table>
+
+
     </div>
+
+
+
+
 </div> <!-- /container -->
+
+
+
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
