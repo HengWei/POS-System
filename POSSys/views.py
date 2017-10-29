@@ -17,6 +17,7 @@ def index(request):
     basicInfo.sellno = ''
     basicInfo.customernumber = ''
     sellbasicid = ''
+    basicInfo.istemp=0
     menuList = Menu.objects.filter(menuparentid=0)
     menu1 = Menu.objects.all().exclude(menuparentid=0)
     menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).order_by('menuadditionname')
@@ -54,6 +55,10 @@ def index(request):
                     dataSell.sellhot = 0
                     dataSell.save()
                     dataSell.clean()
+            dataSellBasic = SellBasic.objects.get(sellbasicid=basicInfo.sellbasicid)
+            dataSellBasic.istemp = 0
+            dataSellBasic.save()
+
         else:
             for idx, val in enumerate(data):
                 if (idx) % 5 == 0:
@@ -68,6 +73,10 @@ def index(request):
                     basicInfo.sellno = ''
                     basicInfo.entrytime = ''
                     basicInfo.customernumber = ''
+            dataSellBasic = SellBasic.objects.get(sellbasicid=basicInfo.sellbasicid)
+            dataSellBasic.istemp = 1
+            dataSellBasic.save()
+
     return render(request, 'index.html', locals())
 
 

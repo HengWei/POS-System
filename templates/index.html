@@ -57,6 +57,7 @@
         $(document).ready(function () {
 
             dataSet = [];
+            dataSet2 = [];
             var columnDefs = [
                     {
                         title: "品項ID",
@@ -125,15 +126,13 @@
                         title: "人數"
                     }, {
                         title: "進入時間"
-                    }, {
-                        title: ""
-                    }, {
+                    },
+                        {
                         "defaultContent": '<nobr> <button type="button" class="btn-tra glyphicon glyphicon-download-alt"></button> </nobr>'
                     },
                 ]
                 ;
 
-{#            var myTable;#}
 
             var myTable2 = $('#loadTemp').DataTable({
                 {#                "sPaginationType": "full_numbers",#}
@@ -142,23 +141,17 @@
                 ordering: false,
                 bFilter: false,
                 bPaginate: false,
-                {#                dom: 'Bfrtip',        // Needs button container#}
-                {#                select: 'single',#}
-                {#                responsive: true,#}
-                {#                altEditor: true,     // Enable altEditor#}
-
-                {#                    {#}
-                {#                        extend: 'selected', // Bind to Selected row#}
-                {#                        text: 'Edit',#}
-                {#                        name: 'edit'        // do not change name#}
-                {#                    },#}
-                {#                    {#}
-                {#                        extend: 'selected', // Bind to Selected row#}
-                {#                        text: 'Delete',#}
-                {#                        name: 'delete'      // do not change name#}
-                {#                    }]#}
             });
 
+
+           $('#loadTemp tbody').on('click', '.btn-tra', function (e) {
+                getData = myTable2.row($(this).parents('tr')).data();
+                for (i = 0; i < dataSet2.length; i++) {
+                    GetTempSell(getData[1]);
+                    $('#tempList').hide();
+                    break;
+                }
+            });
 
         });
     </script>
@@ -261,7 +254,7 @@
             $('#addition').hide(speed);
             $('#menuAddList2').hide(speed);
             $('#menuAddList1').hide(speed);
-
+            $('#tempList').hide(speed);
         }
 
         function Count(NumberVal, tagerDiv) {
@@ -333,11 +326,37 @@
         }
         ;
 
-        function GetTempSell() {
+
+
+        function GetTempList() {
             $.blockUI({ message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料讀取中...</h1>' });
             $.ajax({
                 type: "GET",
-                url: "/getRecord/?id=" + $('#txtBaiscId').val(),
+                url: "/getRecordList/",
+                success: function (result) {
+                    SellServiceData = JSON.parse(result);
+                    dataSet2 = SellServiceData['list'];
+                    $('#loadTemp').DataTable().clear().rows.add(dataSet2).draw();
+                    $('#mainMenu').hide();
+                    $('#tempList').show();
+{#                    BackMenu();#}
+                    $.unblockUI();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Error!');
+                    $.unblockUI();
+                }
+            })
+        }
+        ;
+
+
+
+        function GetTempSell(sellNo) {
+            $.blockUI({ message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料讀取中...</h1>' });
+            $.ajax({
+                type: "GET",
+                url: "/getRecord/?id=" + sellNo,
                 success: function (result) {
                     SellServiceData = JSON.parse(result);
                     dataSet = SellServiceData['list'];
@@ -461,7 +480,7 @@
 
             <button class="btn btn-success btn-menu" onclick="jvascript:ShowMenu('basicId')">顧客資訊</button>
             <button class="btn btn-success btn-menu" onclick="jvascript:SendTemp()">暫存</button>
-            <button class="btn btn-success btn-menu" onclick="ShowMenu('basicId')">提取</button>
+            <button class="btn btn-success btn-menu" onclick="GetTempList()">提取</button>
             <a href="#myModal" data-toggle="modal">
                 <button class="btn btn-warning btn-menu" onclick="jvascript:CountTotal()">結帳</button>
             </a>
@@ -496,7 +515,6 @@
             <button class="btn btn-lg btn-warning btn-key" onclick="javascript:Count(-1,'txtBaiscId');">更正</button>
             <button class="btn btn-lg btn-danger btn-key" onclick="javascript:BackMenu('menu-1','txtBaiscId');">取消
             </button>
-            <button class="btn btn-lg btn-success btn-key" onclick="javascript:GetTempSell();">提取</button>
             <button class="btn btn-lg btn-success btn-key" onclick="javascript:ShowMenu('basicTime');">時間</button>
             <br>
         </div>
@@ -607,10 +625,11 @@
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
         </div>
 
-        <div>
+        <div id="tempList" hidden>
             <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="loadTemp"
                width="100%">
             </table>
+            <center>            <button class="btn btn-lg btn-danger btn-menu" onclick="javascript:BackMenu();">取消</button></center>
         </div>
 
     </div>

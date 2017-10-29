@@ -49,8 +49,7 @@ class SellListModel(models.Manager):
     def SellTempList(self):
         curosr = connection.cursor()
         sqlStr = '''
-                   SELECT sellBasicId, sellNo, customerNumber, entryTime FROM Sell_Basic WHERE sellBasicId IN (
-                   SELECT sellBasicId FROM Sell_Temp WHERE isDelete=0 GROUP BY sellBasicId);
+                   SELECT sellBasicId, sellNo, customerNumber, entryTime FROM Sell_Basic WHERE isTemp=1 AND isDelete=0;
                 '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()

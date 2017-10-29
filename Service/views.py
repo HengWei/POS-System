@@ -29,7 +29,7 @@ def GetTempList(request):
     data = Sell.object.SellTempList()
     obj = []
     for item in data:
-        obj.append([item['sellItem'], item['menuName'], item['sellPrice'], item['sellQuantity'], item['sellPrice']])
+        obj.append([item['sellBasicId'], item['sellNo'], item['customerNumber'], item['entryTime'].strftime("%Y-%m-%d %H:%M")])
     resultData = {'list': obj}
     result = json.dumps(resultData)
     return HttpResponse(result)

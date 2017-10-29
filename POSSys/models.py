@@ -64,7 +64,7 @@ class SellBasic(models.Model):
     customernumber = models.IntegerField(db_column='customerNumber')  # Field name made lowercase.
     isdelete = models.IntegerField(db_column='isDelete')  # Field name made lowercase.
     entrytime = models.DateTimeField(db_column='entryTime')  # Field name made lowercase.
-
+    istemp = models.IntegerField(db_column='isTemp')  # Field name made lowercase.
     class Meta:
         managed = False
         db_table = 'Sell_Basic'
