@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib import admin
 from POSSys.views import index, LoginPage, LogOut, MenuSetting, MenuSettingDetail
-from report.views import report, reportSum, reportCustomer, reportSellList, download_scv
-from Service.views import GetRecord
+from report.views import report, reportSum, reportCustomer, reportSellList, download_scv, reportCustomerAnalysis
+from Service.views import GetRecord,GetTempList
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^MenuSetting/$', MenuSetting),
     url(r'^MenuSettingDetail/$', MenuSettingDetail),
     url(r'^downloadSellIncome/$', download_scv),
+    url(r'^reportCustomerAnalysis/$', reportCustomerAnalysis),
+    url(r'^getRecordList/$', GetTempList),
 ]
