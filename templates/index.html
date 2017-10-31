@@ -396,7 +396,7 @@
 
         $(function () {
             $('#datetimepicker3').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm'
+                format: 'YYYY-MM-DD HH:mm',
             });
 
 
@@ -541,7 +541,7 @@
 
         <div id="basicTime" class="keyboard" style="display: none">
             <div class='input-group date' id='datetimepicker3'>
-                <input type='text' id='txtBaiscTime' class="form-control"/>
+                <input type='text' id='txtBaiscTime' class="form-control" value="{{ tempDate }}" />
                 <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                     </span>

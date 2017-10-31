@@ -58,6 +58,7 @@ def index(request):
             dataSellBasic = SellBasic.objects.get(sellbasicid=basicInfo.sellbasicid)
             dataSellBasic.istemp = 0
             dataSellBasic.save()
+            tempDate = dataSellBasic.entrytime.strftime("%Y/%m/%d %H:%M")
 
         else:
             for idx, val in enumerate(data):
@@ -74,6 +75,7 @@ def index(request):
                     basicInfo.entrytime = ''
                     basicInfo.customernumber = ''
             dataSellBasic = SellBasic.objects.get(sellbasicid=basicInfo.sellbasicid)
+
             dataSellBasic.istemp = 1
             dataSellBasic.save()
 
