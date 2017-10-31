@@ -53,7 +53,7 @@ def download_scv(request):
     writer = csv.writer(response, delimiter=',', quotechar='"')
     header = [u'日期', u'日收入', u'來客數', u'客均消費']
     writer.writerow([x.encode(encode) for x in header])
-    deli = u'="{0}"'
+    deli = u'{0}'
 
     for i in SellSum.object.GetSellTotal(startDate, endDate):
         raw_row = [i['date'], i['total'], i['customer'], i['avg']]
