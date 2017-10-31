@@ -45,20 +45,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#config-demo').daterangepicker({
-            "autoApply": true,
-            "linkedCalendars": false,
-            "startDate": "{{ startDate }}",
-            "endDate": "{{ endDate }}",
-            locale: {
-                format: 'YYYY/MM/DD'
-            }
-        }, function (start, end, label) {
-            $.blockUI({ message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料讀取中...</h1>' });
-            $('#startDate').val(start.format('YYYY/MM/DD'));
-            $('#endDate').val(end.format('YYYY/MM/DD'));
-            $('#postInfo').submit();
-        });
+
     });
 
 
@@ -78,7 +65,13 @@
     <div class="col-md-12">
         <hr>
         {% if menuList|length > 0 %}
-        <h2>大項目選單</h2>
+        <div class="col-md-6" ><h2>大項目選單</h2></div>
+        <div class="col-md-6" style="text-align: right">
+            <a href="../MenuSettingDetail/">
+            <button type="button" class="btn btn-md btn-danger">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;新增項目</button></a></div>
+        </div>
+
         <table class="table table-striped">
             <thead>
             <tr>

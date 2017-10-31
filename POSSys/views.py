@@ -3,6 +3,7 @@ from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.db.models import Max
 
 
 # Create your views here.
@@ -130,6 +131,9 @@ def LoginCheck(request):
 def MenuSetting(request):
     if not LoginCheck(request):
         return HttpResponseRedirect('/login/')
+
+        return render(request, 'MenuSettingList.html', locals())
+
     menuList = Menu.objects.filter(menuparentid=request.GET['id'])
     return render(request, 'MenuSettingList.html', locals())
 
@@ -137,14 +141,30 @@ def MenuSettingDetail(request):
     if not LoginCheck(request):
         return HttpResponseRedirect('/login/')
     if request.method=='GET':
-        menuParentList=Menu.objects.filter(menuparentid=0)
-        menu = Menu.objects.get(menuid=request.GET['id'])
+        menuParentList = Menu.objects.filter(menuparentid=0)
+        if request.GET['id'] == '0':
+            menu = Menu()
+            menu.menuid = ''
+            menu.menuname = ''
+            menu.menuparentid = 1
+            menu.menuprice = 0
+        else:
+            menu = Menu.objects.get(menuid=request.GET['id'])
+        return render(request, 'MenuSettingDetail.html', locals())
+
     else:
-        menu=Menu.objects.get(menuid=request.POST['menuId'])
-        menu.id=request.POST['menuId']
-        menu.menuname=request.POST['menuName']
-        menu.menuparentid=request.POST['menuParent']
-        menu.menuprice=request.POST['menuPrice']
-        menu.save()
+        if request.POST['menuId'] == '':
+            menu = Menu()
+            menu.menuid=Menu.objects.filter(menuparentid=request.POST['menuParent']).aggregate(Max('menuid'))['menuid__max']+1
+            menu.menuname = request.POST['menuName']
+            menu.menuparentid = request.POST['menuParent']
+            menu.menuprice = request.POST['menuPrice']
+            menu.save()
+        else:
+            menu = Menu.objects.get(menuid=request.POST['menuId'])
+            menu.menuname = request.POST['menuName']
+            menu.menuparentid = request.POST['menuParent']
+            menu.menuprice = request.POST['menuPrice']
+            menu.save()
         return HttpResponseRedirect('/MenuSetting/?id='+menu.menuparentid)
     return render(request, 'MenuSettingDetail.html', locals())
