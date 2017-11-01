@@ -151,7 +151,8 @@ def MenuSettingDetail(request):
             menu.menuprice = 0
         else:
             menu = Menu.objects.get(menuid=request.GET['id'])
-            additionList = map(int, menu.menuaddition.split(','))
+            if not menu.menuaddition == '':
+                additionList = map(int, menu.menuaddition.split(','))
         return render(request, 'MenuSettingDetail.html', locals())
 
     else:
