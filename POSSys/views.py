@@ -142,6 +142,7 @@ def MenuSettingDetail(request):
         return HttpResponseRedirect('/login/')
     if request.method=='GET':
         menuParentList = Menu.objects.filter(menuparentid=0)
+        menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).order_by('menuadditionname')
         if request.GET['id'] == '0':
             menu = Menu()
             menu.menuid = ''
@@ -150,6 +151,7 @@ def MenuSettingDetail(request):
             menu.menuprice = 0
         else:
             menu = Menu.objects.get(menuid=request.GET['id'])
+            additionList = map(int, menu.menuaddition.split(','))
         return render(request, 'MenuSettingDetail.html', locals())
 
     else:
@@ -159,12 +161,14 @@ def MenuSettingDetail(request):
             menu.menuname = request.POST['menuName']
             menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
+            menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
             menu.save()
         else:
             menu = Menu.objects.get(menuid=request.POST['menuId'])
             menu.menuname = request.POST['menuName']
             menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
+            menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
             menu.save()
         return HttpResponseRedirect('/MenuSetting/?id='+menu.menuparentid)
     return render(request, 'MenuSettingDetail.html', locals())

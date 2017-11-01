@@ -17,7 +17,7 @@
     <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
     <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
-        <link href="{% static "css/jquery-confirm.css" %}" rel="stylesheet">
+    <link href="{% static "css/jquery-confirm.css" %}" rel="stylesheet">
 
     {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -57,7 +57,7 @@
             content: '資料即將進行更新!',
             buttons: {
                 confirm: function () {
-                    $.blockUI({ message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料儲存中...</h1>' });
+                    $.blockUI({message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料儲存中...</h1>'});
                     $('#UpdateMenu').submit();
                 },
                 cancel: function () {
@@ -108,20 +108,35 @@
                     <td>品項群組</td>
                     <td><select id="menuParent" name="menuParent" {% if menu.menuparentid == 0 %} disabled {% endif %}>
                         <option value="0"
-                                    {% if menu.menuparentid == item.menuid %}selected{% endif %}>無群組</option>
+                                {% if menu.menuparentid == item.menuid %}selected{% endif %}>無群組
+                        </option>
                         {% for item in menuParentList %}
                             <option value="{{ item.menuid }}"
                                     {% if menu.menuparentid == item.menuid %}selected{% endif %}>{{ item.menuname }}</option>
                         {% endfor %}
                     </select></td>
                 </tr>
+                <tr>
+                    <td>加購類別</td>
+                    <td>
+                        {% for foo in menuAddition %}
+                            {% if foo.menuadditionid in additionList %}
+                                <input type="checkbox" name="GroupId" id="GroupId" value={{ foo.menuadditionid }} checked>
+                                {{ foo.menuadditionname }}
+                            {% else %}
+                                <input type="checkbox" name="GroupId" id="GroupId" value={{ foo.menuadditionid }}>
+                                {{ foo.menuadditionname }}
+                            {% endif %}
+                            <br>
+                        {% endfor %}</td>
+                </tr>
                 </tbody>
             </table>
 
         </form>
         <center>
-             <button onclick="UpdateCheck()">送出更新</button>
-        <button onclick="javascript:history.back();">取消</button>
+            <button onclick="UpdateCheck()">送出更新</button>
+            <button onclick="javascript:history.back();">取消</button>
         </center>
 
 
