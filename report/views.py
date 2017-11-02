@@ -62,5 +62,11 @@ def download_scv(request):
     return response
 
 def reportCustomerAnalysis(request):
-    data = SellSum.object.CustomerAnalysis()
+    if request.method == 'GET':
+        startDate=(datetime.datetime.now()- datetime.timedelta(days=30)).strftime('%Y//%m//%d')
+        endDate= datetime.datetime.now().strftime('%Y//%m//%d')
+    if request.method == 'POST':
+        startDate=request.POST['startDate']
+        endDate=request.POST['endDate']
+    data = SellSum.object.CustomerAnalysis(startDate, endDate)
     return render(request, 'customerAnalysis.html',locals())

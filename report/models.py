@@ -53,7 +53,7 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-    def GetSellTotal(self,startDate,endDate):
+    def GetSellTotal(self, startDate, endDate):
         curosr = connection.cursor()
         sqlStr = '''
                  SELECT a.sellDate, IFNULL(a.sellPrice,0), b.customer, IFNULL(ROUND((a.sellPrice/b.customer),0),0) as avgCustomer, ROUND((b.customer/7),2) as rate
@@ -83,7 +83,6 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-
     def GetSellTime(self):
         curosr = connection.cursor()
         sqlStr = '''
@@ -106,7 +105,7 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-    def GetSellList(self,startDate,endDate):
+    def GetSellList(self, startDate, endDate):
         curosr = connection.cursor()
         sqlStr = '''          
                     SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total 
@@ -115,13 +114,13 @@ class SellSumManager(models.Manager):
                     WHERE isDelete=0
                     '''
 
-        if not startDate=='':
-            sqlStr +='''AND a.entryTime > ' '''  + startDate + ''' 00:00:00 ' '''
+        if not startDate == '':
+            sqlStr += '''AND a.entryTime > ' ''' + startDate + ''' 00:00:00 ' '''
 
         if not endDate == '':
             sqlStr += '''AND a.entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
 
-        sqlStr+='''  GROUP BY sellNo, entryTime, customerNumber ORDER BY sellNo;'''
+        sqlStr += '''  GROUP BY sellNo, entryTime, customerNumber ORDER BY sellNo;'''
 
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
@@ -152,7 +151,7 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
-    def CustomerAnalysis(self):
+    def CustomerAnalysis(self, startDate, endDate):
         curosr = connection.cursor()
         sqlStr = '''
                   SELECT data.w, data.t, ROUND(data.Customer/b.total,2) as rate FROM
@@ -164,15 +163,29 @@ class SellSumManager(models.Manager):
  ,SUM(customerNumber) as Customer
  FROM Sell_Basic
  WHERE isDelete=0
+ '''
+        if not startDate == '':
+            sqlStr += ''' AND entryTime > ' ''' + startDate + ''' 00:00:00 ' '''
+
+        if not endDate == '':
+            sqlStr += ''' AND entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
+
+        sqlStr += '''
  GROUP BY dayofweek(entryTime) , CASE WHEN HOUR(entryTime) BETWEEN 12 and 14 THEN 0
         WHEN HOUR(entryTime) BETWEEN 15 and 17 THEN 1
         WHEN HOUR(entryTime) BETWEEN 18 and 21 THEN 2
  END
  ) as data LEFT JOIN (SELECT dayofweek(a.entryDate) as entryDate, COUNT(*) as total FROM
-(SELECT distinct DATE_FORMAT(entryTime,'%Y-%m-%d') as entryDate FROM Sell_Basic GROUP BY DATE_FORMAT(entryTime,'%Y-%m-%d')) as a
+(SELECT distinct DATE_FORMAT(entryTime,'%Y-%m-%d') as entryDate FROM Sell_Basic WHERE isDelete=0'''
+        if not startDate == '':
+            sqlStr += ''' AND entryTime > ' ''' + startDate + ''' 00:00:00 ' '''
+
+        if not endDate == '':
+            sqlStr += ''' AND entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
+        sqlStr += '''GROUP BY DATE_FORMAT(entryTime,'%Y-%m-%d')) as a
 GROUP BY dayofweek(a.entryDate)) as b ON data.w=b.entryDate
  ;
-                 '''
+                '''
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
         result = []
