@@ -152,5 +152,38 @@ class SellSumManager(models.Manager):
             result.append(dic)
         return result
 
+    def CustomerAnalysis(self):
+        curosr = connection.cursor()
+        sqlStr = '''
+                  SELECT data.w, data.t, ROUND(data.Customer/b.total,2) as rate FROM
+ (SELECT dayofweek(entryTime) as w
+ , CASE WHEN HOUR(entryTime) BETWEEN 12 and 14 THEN 0
+        WHEN HOUR(entryTime) BETWEEN 15 and 17 THEN 1
+        WHEN HOUR(entryTime) BETWEEN 18 and 21 THEN 2
+  END as t
+ ,SUM(customerNumber) as Customer
+ FROM Sell_Basic
+ WHERE isDelete=0
+ GROUP BY dayofweek(entryTime) , CASE WHEN HOUR(entryTime) BETWEEN 12 and 14 THEN 0
+        WHEN HOUR(entryTime) BETWEEN 15 and 17 THEN 1
+        WHEN HOUR(entryTime) BETWEEN 18 and 21 THEN 2
+ END
+ ) as data LEFT JOIN (SELECT dayofweek(a.entryDate) as entryDate, COUNT(*) as total FROM
+(SELECT distinct DATE_FORMAT(entryTime,'%Y-%m-%d') as entryDate FROM Sell_Basic GROUP BY DATE_FORMAT(entryTime,'%Y-%m-%d')) as a
+GROUP BY dayofweek(a.entryDate)) as b ON data.w=b.entryDate
+ ;
+                 '''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['w'] = obj[0]
+            dic['t'] = obj[1]
+            dic['rate'] = obj[2]
+            result.append(dic)
+        return result
+
+
 class SellSum(models.Model):
     object = SellSumManager()

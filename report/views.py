@@ -63,4 +63,4 @@ def download_scv(request):
 
 def reportCustomerAnalysis(request):
     data = SellSum.object.CustomerAnalysis()
-    return render(request, 'reportCustomerAnalysis.html',locals())
+    return render(request, 'customerAnalysis.html',locals())
