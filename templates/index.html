@@ -606,7 +606,7 @@
         <div class="menu" id="menuAddList1" hidden>
             {% for item in menuAdditionList2 %}
                 <button class="btn btn-lg btn-primary btn-menu"
-                    onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, {% autoescape off %}{{ item.menuname }}{% endautoescape %});">
+                    onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, '{% autoescape off %}{{ item.menuname }}{% endautoescape %}');">
                 {% autoescape off %}{{ item.menuname }}{% endautoescape %}
             </button>
             {% endfor %}
@@ -617,7 +617,6 @@
 {#            </button>#}
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
         </div>
-
 
         <div class="menu" id="menuAddList2" hidden>
             {% for item in menuAdditionList %}
