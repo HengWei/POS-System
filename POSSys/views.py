@@ -23,6 +23,8 @@ def index(request):
     menu1 = Menu.objects.all().exclude(menuparentid=0)
     menuAddition = MenuAddition.objects.filter(menuadditionisdeletet=0).order_by('menuadditionname')
     menuAdditionList = Menu.objects.filter(menuparentid__range=(1, 5))
+    menuAdditionList2 = Menu.objects.filter(menuparentid=12)
+
 
     if request.method == 'POST':
         data = request.POST['sellList'].split(',')

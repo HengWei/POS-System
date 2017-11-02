@@ -604,14 +604,17 @@
 
 
         <div class="menu" id="menuAddList1" hidden>
-            <button class="btn btn-lg btn-primary btn-menu"
-                    onclick="javascript:PushToListForAddition(addPrice,'1201', '加購-紅茶');">
-                紅茶
+            {% for item in menuAdditionList2 %}
+                <button class="btn btn-lg btn-primary btn-menu"
+                    onclick="javascript:PushToListForAddition(addPrice,{{ item.menuid }}, {% autoescape off %}{{ item.menuname }}{% endautoescape %});">
+                {% autoescape off %}{{ item.menuname }}{% endautoescape %}
             </button>
-            <button class="btn btn-lg btn-primary btn-menu"
-                    onclick="javascript:PushToListForAddition(addPrice,'1202', '加購-美式咖啡');">
-                美式咖啡
-            </button>
+            {% endfor %}
+
+{#            <button class="btn btn-lg btn-primary btn-menu"#}
+{#                    onclick="javascript:PushToListForAddition(addPrice,'1202', '加購-美式咖啡');">#}
+{#                美式咖啡#}
+{#            </button>#}
             <button class="btn btn-lg btn-warning btn-menu" onclick="javascript:ShowMenu('addition');">回上一頁</button>
         </div>
 
