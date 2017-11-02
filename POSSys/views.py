@@ -162,14 +162,16 @@ def MenuSettingDetail(request):
             menu.menuname = request.POST['menuName']
             menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
-            menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
+            if not request.POST.get('GroupId', '') == '':
+                menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
             menu.save()
         else:
             menu = Menu.objects.get(menuid=request.POST['menuId'])
             menu.menuname = request.POST['menuName']
             menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
-            menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
+            if not request.POST.get('GroupId', '') == '':
+                menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
             menu.save()
         return HttpResponseRedirect('/MenuSetting/?id='+menu.menuparentid)
     return render(request, 'MenuSettingDetail.html', locals())
