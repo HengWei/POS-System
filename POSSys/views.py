@@ -172,7 +172,10 @@ def MenuSettingDetail(request):
         else:
             menu = Menu.objects.get(menuid=request.POST['menuId'])
             menu.menuname = request.POST['menuName']
-            menu.menuparentid = request.POST['menuParent']
+            if request.POST.get('menuParent', '') == '':
+                menu.menuparentid='0'
+            else:
+                menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
             if not request.POST.get('GroupId', '') == '':
                 menu.menuaddition= ','.join(request.POST.getlist('GroupId', 0))
