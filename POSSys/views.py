@@ -2,7 +2,6 @@ from django.shortcuts import render
 from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser
 from datetime import datetime
 from django.http import HttpResponseRedirect
-from django.utils import timezone
 from django.db.models import Max
 
 
@@ -40,7 +39,6 @@ def index(request):
             sellbasicid = basicInfo.sellbasicid
         else:
             basicInfo = SellBasic.objects.get(sellbasicid=request.POST['txtSellBasicID'])
-            # basicInfo.sellbasicid=request.POST['txtSellBasicID']
             sellbasicid = request.POST['txtSellBasicID']
 
         # 0:id 1:name 2:single price 3:amount 4:total price
@@ -160,7 +158,11 @@ def MenuSettingDetail(request):
     else:
         if request.POST['menuId'] == '':
             menu = Menu()
-            menu.menuid=Menu.objects.filter(menuparentid=request.POST['menuParent']).aggregate(Max('menuid'))['menuid__max']+1
+            maxId=Menu.objects.filter(menuparentid=request.POST['menuParent']).aggregate(Max('menuid'))['menuid__max']
+            if  maxId == None:
+                menu.menuid=request.POST['menuParent']+'00'
+            else:
+                menu.menuid=maxId+1
             menu.menuname = request.POST['menuName']
             menu.menuparentid = request.POST['menuParent']
             menu.menuprice = request.POST['menuPrice']
