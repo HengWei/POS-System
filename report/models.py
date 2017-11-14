@@ -57,7 +57,7 @@ class SellSumManager(models.Manager):
         curosr = connection.cursor()
         sqlStr = '''
                  SELECT a.sellDate, IFNULL(a.sellPrice,0), b.customer, IFNULL(ROUND((a.sellPrice/b.customer),0),0) as avgCustomer, ROUND((b.customer/7),2) as rate
-                 FROM (SELECT date_format(entryTime,'%Y-%m-%d') as sellDate, SUM(sellPrice) as sellPrice FROM Sell_Basic  as a 
+                 FROM (SELECT date_format(entryTime,'%Y-%m-%d %a') as sellDate, SUM(sellPrice) as sellPrice FROM Sell_Basic  as a 
                  LEFT JOIN Sell as b  ON a.sellBasicId=b.sellBasicId WHERE isDelete=0 '''
         if not startDate == '':
             sqlStr += ''' AND entryTime > ' ''' + startDate + ''' 00:00:00 ' '''
@@ -65,9 +65,9 @@ class SellSumManager(models.Manager):
         if not endDate == '':
             sqlStr += ''' AND entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
 
-        sqlStr += '''GROUP BY date_format(entryTime,'%Y-%m-%d')) as a
+        sqlStr += '''GROUP BY date_format(entryTime,'%Y-%m-%d %a')) as a
                  LEFT JOIN 
-                 (SELECT date_format(entryTime,'%Y-%m-%d') as sellDate, SUM(customerNumber) as customer FROM Sell_Basic GROUP BY date_format(entryTime,'%Y-%m-%d')) as b
+                 (SELECT date_format(entryTime,'%Y-%m-%d %a') as sellDate, SUM(customerNumber) as customer FROM Sell_Basic GROUP BY date_format(entryTime,'%Y-%m-%d %a')) as b
                  ON a.sellDate = b.sellDate
                 '''
         curosr.execute(sqlStr)
