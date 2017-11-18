@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Affogato Café POS System Demo Version</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/daterangepicker.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
+    <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
+    <link href="{% static "css/navbar.css" %}" rel="stylesheet">
+    <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
+    <link href="{% static "css/jquery-confirm.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-datetimepicker.css" %}" rel="stylesheet">
+    {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
+            <script src={% static "js/jquery-2.1.1.min.js" %}></script>
+    <script src={% static "js/bootstrap.min.js" %}></script>
+
+{#    	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>#}
+{#		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>#}
+
+			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+			<script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+{#    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>#}
+{#    <link href="{% static "js/bootstrap-datetimepicker.js" %}" rel="stylesheet">#}
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    {#    <script src={% static "js/ie10-viewport-bug-workaround.js" %}></script>#}
+    {#    <script src="{% static "js/moment.js" %}"></script>#}
+        <script src=" {% static "js/jquery-confirm.js" %} "></script>
+        <script src=" {% static "js/jquery.blockUI.js" %} "></script>
+
+
+    <style type="text/css">
+        .demo {
+            position: relative;
+        }
+
+        .demo i {
+            position: absolute;
+            bottom: 10px;
+            right: 24px;
+            top: auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<script>
+
+
+    $(document).ready(function () {
+
+    });
+
+    function UpdateCheck() {
+        $.confirm({
+            title: '警告!',
+            content: '資料即將進行更新!',
+            buttons: {
+                confirm: function () {
+                    $.blockUI({message: '<h1><img src="{% static "img/712.gif" %}" /> &nbsp;&nbsp;資料儲存中...</h1>'});
+                    $('#UpdateMenu').submit();
+                },
+                cancel: function () {
+                    $.alert('已取消更新!');
+                },
+            }
+        });
+    };
+</script>
+
+{#<script type="text/javascript" language="javascript"#}
+{#        src="//cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.min.js"></script>#}
+
+<body>
+<div class="container">
+    {% include 'navbar.html' %}
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="col-md-8"></div>
+
+
+    <div class="col-md-12">
+
+        <form id="UpdateMenu" method="post" href="../modifyBasic/">
+            {% csrf_token %}
+            <h2>顧客資訊</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>項目</th>
+                    <th>修改內容</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>系統ID</td>
+                    <td><p>{{ data.sellbasicid }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>單號</td>
+                    <td><input id="sellno" name="sellno" value="{{ data.sellno }}"></td>
+                </tr>
+                <tr>
+                    <td>顧客數</td>
+                    <td><input id="customernumber" name="customernumber" value="{{ data.customernumber }}"></td>
+                </tr>
+                <tr>
+                    <td>進入時間</td>
+                    <td>
+                            <div class="row">
+                                    <input type='text' class="form-control" id='datetimepicker4' name="datetimepicker4" value="{{ entrtTime }}"/>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker4').datetimepicker({
+                                            format: 'YYYY-MM-DD HH:mm',
+                                        });
+                                    });
+                                </script>
+                            </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>鍵入時間</td>
+                    <td>
+                    {{ keyinTime }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>刪除</td>
+                    <td><input type="checkbox" id="isDelete" name="isDelete" value="delete"> &nbsp; 刪除此資料</td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="text" id="sellbasicid" name="sellbasicid" value="{{ data.sellbasicid }}" hidden>
+            <h2>餐點資訊</h2>
+             <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>系統ID</th>
+                    <th>銷售內容</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                    <th>刪除</th>
+                </tr>
+                </thead>
+            {% for item in sellDetail  %}
+            <tr>
+                <td>{{ item.sellId }}</td>
+                <td>{{ item.name  }}</td>
+                <td>{{ item.sellPrice}}</td>
+                <td>{{ item.sellQuantity}}</td>
+                <td>{{ item.income}}</td>
+                <td><input type="checkbox" value="{{ item.sellId }}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        </form>
+        <center>
+            <button onclick="UpdateCheck()">送出更新</button>
+            <button onclick="javascript:history.back();">取消</button>
+        </center>
+
+
+    </div>
+    <div class="col-md-12">
+
+
+    </div>
+
+</div> <!-- /container -->
+
+
+</body>
+</html>

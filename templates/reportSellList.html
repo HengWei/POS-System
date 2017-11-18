@@ -16,7 +16,6 @@
     <link href="{% static "css/navbar-static-top.css" %}" rel="stylesheet">
     <link href="{% static "css/highcharts.css" %}" rel="stylesheet">
     <link href="{% static "css/navbar.css" %}" rel="stylesheet">
-    <link href="{% static "css/ie10-viewport-bug-workaround.css" %}" rel="stylesheet">
 {#    <link href="{% static "js/jquery-1.11.3.min.js" %}" rel="stylesheet">#}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
@@ -59,9 +58,10 @@
             $('#endDate').val(end.format('YYYY/MM/DD'));
             $('#postInfo').submit();
         });
+
+
+
     });
-
-
 </script>
 
 {#<script type="text/javascript" language="javascript"#}
@@ -79,14 +79,10 @@
 
         <form id="postInfo" action="/reportSellList/" method="post">
             {% csrf_token %}
-            <input type="text" id="startDate" name="startDate" hidden>
-            <input type="text" id="endDate" name="endDate" hidden>
+            <input type="text" id="startDate" name="startDate"  hidden>
+            <input type="text" id="endDate" name="endDate"  hidden>
             <input type="text" id="preDate" name="preDate" hidden>
         </form>
-
-
-
-
 
     </div>
     <div class="col-md-8"></div>
@@ -107,7 +103,7 @@
             <tbody>
             {% for item in data %}
                 <tr>
-                    <td>{{ item.sellNo }}</td>
+                    <td><a href="../modifyBasic/?id={{ item.sellNo }}">{{ item.sellNo }}</a> </td>
                     <td>{{ item.entryTime }}</td>
                     <td>{{ item.customerNumber }}</td>
                     <td>{{ item.income }}</td>

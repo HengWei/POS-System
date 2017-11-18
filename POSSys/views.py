@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser
+from POSSys.models import Menu, Sell, SellBasic, MenuAddition, SellTemp, POSUser, SellData
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.db.models import Max
@@ -182,3 +182,28 @@ def MenuSettingDetail(request):
             menu.save()
         return HttpResponseRedirect('/MenuSetting/?id='+menu.menuparentid)
     return render(request, 'MenuSettingDetail.html', locals())
+
+def ModifyBasic(request):
+    if not LoginCheck(request):
+        return HttpResponseRedirect('/login/')
+
+    if request.method == 'GET':
+        data = SellBasic.objects.get(sellno=request.GET['id'])
+        entrtTime=data.entrytime.strftime('%Y//%m//%d %H:%m')
+        keyinTime=data.sellbasickeyindate.strftime('%Y/%m/%d %H:%m')
+        sellDetail=SellData.object.GetSellDetail(request.GET['id'])
+        return render(request, 'ModifyBasic.html', locals())
+    else:
+        data = SellBasic.objects.get(sellbasicid=request.POST['sellbasicid'])
+        data.sellno=request.POST['sellno']
+        data.customernumber=request.POST['customernumber']
+        data.entrytime=request.POST['datetimepicker4']
+        # sellData=
+        if request.POST.get('isDelete', False):
+            data.isdelete = 1
+        else:
+            data.isdelete = 0
+        data.save()
+        return HttpResponseRedirect('/reportSellList/')
+
+

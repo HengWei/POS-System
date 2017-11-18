@@ -93,3 +93,29 @@ class POSUser(models.Model):
         managed = False
         db_table = 'POSUser'
         app_label = 'POSSys'
+
+
+class SellDetail(models.Manager):
+    def GetSellDetail(self, sellNo):
+        curosr = connection.cursor()
+        sqlStr = '''
+                SELECT sellId, CONCAT(view_menu.parentName,' - ',REPLACE(view_menu.detailName,'<br>','')) as Name
+                , ROUND(sellPrice/sellQuantity,0) , sellQuantity,  sellPrice as income
+                FROM Sell LEFT JOIN view_menu ON Sell.sellItem=view_menu.detailId 
+                WHERE sellBasicId = (SELECT sellBasicId FROM Sell_Basic WHERE isDelete=0 AND sellNo=''' + sellNo
+        sqlStr += ''')'''
+        curosr.execute(sqlStr)
+        fetchall = curosr.fetchall()
+        result = []
+        for obj in fetchall:
+            dic = {}
+            dic['sellId'] = obj[0]
+            dic['name'] = obj[1]
+            dic['sellPrice'] = obj[2]
+            dic['sellQuantity'] = obj[3]
+            dic['income'] = obj[4]
+            result.append(dic)
+        return result
+
+class SellData(models.Model):
+    object = SellDetail()
