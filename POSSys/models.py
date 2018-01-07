@@ -102,8 +102,7 @@ class SellDetail(models.Manager):
                 SELECT sellId, CONCAT(view_menu.parentName,' - ',REPLACE(view_menu.detailName,'<br>','')) as Name
                 , ROUND(sellPrice/sellQuantity,0) , sellQuantity,  sellPrice as income
                 FROM Sell LEFT JOIN view_menu ON Sell.sellItem=view_menu.detailId 
-                WHERE sellBasicId = (SELECT sellBasicId FROM Sell_Basic WHERE isDelete=0 AND sellNo=''' + sellNo
-        sqlStr += ''')'''
+                WHERE sellBasicId = ''' + sellNo
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
         result = []
