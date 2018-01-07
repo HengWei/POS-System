@@ -108,7 +108,7 @@ class SellSumManager(models.Manager):
     def GetSellList(self, startDate, endDate):
         curosr = connection.cursor()
         sqlStr = '''          
-                    SELECT sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total 
+                    SELECT a.sellBasicId ,sellNo, DATE_FORMAT(entryTime, '%Y-%m-%d %H:%i')  as entryTime, customerNumber, SUM(sellPrice) as total 
                     FROM Sell_Basic as a
                     LEFT JOIN Sell as b ON a.sellBasicId=b.sellBasicId
                     WHERE isDelete=0
@@ -120,17 +120,18 @@ class SellSumManager(models.Manager):
         if not endDate == '':
             sqlStr += '''AND a.entryTime < ' ''' + endDate + ''' 23:59:59 ' '''
 
-        sqlStr += '''  GROUP BY sellNo, entryTime, customerNumber ORDER BY sellNo;'''
+        sqlStr += '''  GROUP BY a.sellBasicId, sellNo, entryTime, customerNumber ORDER BY sellNo;'''
 
         curosr.execute(sqlStr)
         fetchall = curosr.fetchall()
         result = []
         for obj in fetchall:
             dic = {}
-            dic['sellNo'] = obj[0]
-            dic['entryTime'] = obj[1]
-            dic['customerNumber'] = obj[2]
-            dic['income'] = obj[3]
+            dic['sellBasicId'] = obj[0]
+            dic['sellNo'] = obj[1]
+            dic['entryTime'] = obj[2]
+            dic['customerNumber'] = obj[3]
+            dic['income'] = obj[4]
             result.append(dic)
         return result
 

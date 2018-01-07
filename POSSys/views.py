@@ -188,7 +188,7 @@ def ModifyBasic(request):
         return HttpResponseRedirect('/login/')
 
     if request.method == 'GET':
-        data = SellBasic.objects.get(sellno=request.GET['id'])
+        data = SellBasic.objects.get(sellbasicid=request.GET['id'])
         entrtTime=data.entrytime.strftime('%Y//%m//%d %H:%m')
         keyinTime=data.sellbasickeyindate.strftime('%Y/%m/%d %H:%m')
         sellDetail=SellData.object.GetSellDetail(request.GET['id'])
